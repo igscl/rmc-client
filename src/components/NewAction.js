@@ -1,9 +1,26 @@
 import React from 'react'
 import { useState } from 'react'
 import {withRouter} from 'react-router-dom'
+import { useGlobalState } from '../config/store'
 
 
-const NewAction = ({history, addAction, nextId}) => {
+const NewAction = ({history}) => {
+    const {store,dispatch} = useGlobalState()
+    const {actionsData} = store
+
+    //add an action to Actions
+    function addAction(action) {
+        dispatch({
+        type: "setActions",
+        data: [...actionsData, action]
+        })
+    }
+    
+    function getNextId(){
+        const ids = actionsData.map((action) => action._id)
+        return ids.sort()[ids.length-1] + 1
+    }
+
 
     const initialFormState = {
         title: "",
@@ -22,6 +39,7 @@ const NewAction = ({history, addAction, nextId}) => {
 
     function handleSubmit(event) {
         event.preventDefault()
+        const nextId = getNextId()
         const newAction = {
             _id: nextId,
             title: formState.title,

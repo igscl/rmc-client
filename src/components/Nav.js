@@ -1,7 +1,10 @@
 import React from 'react'
 import {Link} from 'react-router-dom'
+// import { useGlobalState } from '../config/store'
 
 const Nav = () => {
+    // const {store, dispatch} = useGlobalState()
+
     const divStyles = {
         display: 'flex',
     }

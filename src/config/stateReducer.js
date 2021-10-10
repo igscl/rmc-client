@@ -1,15 +1,15 @@
-function stateReducer(state, action) {
-    switch(action.type) {
+function stateReducer(state, operation) {
+    switch(operation.type) {
         case "setActions": {
             return {
                 ...state,
-                actions: action.data
+                actionsData: operation.data
             }
         }
         case "setLoggedInUser": {
             return {
                 ...state,
-                loggedInUser: action.data
+                loggedInUser: operation.data
             }
         }
         default: 
