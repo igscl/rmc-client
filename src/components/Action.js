@@ -8,6 +8,10 @@ const Action = ({action, showControls, history, deleteAction}) => {
         textDecoration: 'none',
         color: 'black' 
     }
+    const buttonStyles = {
+        margin: '.5em',
+        fontSize: '1em'
+    }
 
     const {title, modified_date, actions} = action
 
@@ -15,6 +19,11 @@ const Action = ({action, showControls, history, deleteAction}) => {
         event.preventDefault()
         deleteAction(action._id)
         history.push("/")
+    }
+    // Handle the edit button
+    function handleEdit(event) {
+        event.preventDefault()
+        history.push(`/actions/edit/${action._id}`)
     }
 
     return (
@@ -24,7 +33,10 @@ const Action = ({action, showControls, history, deleteAction}) => {
             <p>{modified_date.toLocaleString()}</p>
             <p>{actions}</p>
             {showControls && (
-                <button onClick={handleDelete}>Delete</button>
+                <div>
+                    <button onClick={handleDelete}>Delete</button>
+                    <button style={buttonStyles} onClick={handleEdit}>Edit</button>
+                </div>
             )}
             </Link>
         </div>

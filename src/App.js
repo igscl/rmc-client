@@ -1,13 +1,31 @@
-import React, {useState, useEffect} from 'react'
+import React, {useEffect, useReducer} from 'react'
 import { BrowserRouter, Route } from 'react-router-dom'
 import Actions from './components/Actions'
 import Action from './components/Action'
 import actionData from './data/post_data'
 import Nav from './components/Nav'
 import NewAction from './components/NewAction'
+import EditAction from './components/EditAction'
+import stateReducer from './config/stateReducer'
 
 const App = () => {
-  const [actions, setActions] = useState([])
+
+  const initialState = {
+    actions: [],
+    loggedInUser: null
+  }
+
+  // const [actions, setActions] = useState([])
+  const [store,dispatch] = useReducer(stateReducer,initialState)
+  const {actions, loggedInUser} = store
+
+
+  useEffect(() => {
+    dispatch({
+      type: "setActions",
+      data: actionData
+    })
+},[])
 
   // Returns a single post based on the id provided
   function getActionFromId(id) {
@@ -15,7 +33,10 @@ const App = () => {
   }
   //add an action to Actions
   function addAction(action) {
-    setActions([...actions, action])
+    dispatch({
+      type: "setActions",
+      data: [...actions, action]
+    })
   }
   
   function getNextId(){
@@ -25,12 +46,21 @@ const App = () => {
 
   function deleteAction(id) {
     const updatedActions = actions.filter((action) => action._id !== parseInt(id))
-    setActions(updatedActions)
-}
+    dispatch({
+      type: "setActions",
+      data: updatedActions
+    })
+  }
 
-  useEffect(() => {
-    setActions(actionData)
-  },[])
+  // Update an action
+  function updateAction(updatedAction) {
+    const otherActions = actions.filter((action) => action._id !== updatedAction._id)
+    dispatch({
+      type: "setActions",
+      data: [...otherActions, updatedAction]
+    })
+  }
+
 
   return (
     <div >
@@ -39,7 +69,9 @@ const App = () => {
         <h1>Hello!</h1>
         <Route exact path="/" render={(props) => <Actions {...props} actionData={actions} /> } />
         <Route exact path="/actions/:id" render={(props) => <Action {...props} action={getActionFromId(props.match.params.id)} showControls deleteAction={deleteAction}/> } />
-        <Route exact path="/actions/new" render={(props) => <NewAction {...props} addBlogPost={addAction} nextId={getNextId()}/> }/>
+        <Route exact path="/actions/new" render={(props) => <NewAction {...props} addAction={addAction} nextId={getNextId()}/> }/>
+        <Route exact path="/actions/edit/:id" render={(props) => <EditAction {...props} updateAction={updateAction} action={getActionFromId(props.match.params.id)}/> }/>
+
 
       </BrowserRouter>
     </div>

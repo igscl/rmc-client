@@ -3,7 +3,7 @@ import { useState } from 'react'
 import {withRouter} from 'react-router-dom'
 
 
-const NewAction = ({history, addBlogPost, nextId}) => {
+const NewAction = ({history, addAction, nextId}) => {
 
     const initialFormState = {
         title: "",
@@ -22,13 +22,13 @@ const NewAction = ({history, addBlogPost, nextId}) => {
 
     function handleSubmit(event) {
         event.preventDefault()
-        const newPost = {
+        const newAction = {
             _id: nextId,
             title: formState.title,
             modified_date: new Date(),
             actions: formState.actions
         }
-        addBlogPost(newPost)
+        addAction(newAction)
         history.push(`/actions/${nextId}`)
     }
 
@@ -49,14 +49,14 @@ const NewAction = ({history, addBlogPost, nextId}) => {
         width: "70vw"
     }
     return (
-    <form id="newPostForm" onSubmit={handleSubmit}>
+    <form id="newActionForm" onSubmit={handleSubmit}>
         <div style={divStyles}>
         <label style={labelStyles}>Title</label>
         <input style={inputStyles} required type="text" name="title" placeholder="Enter a title" onChange={handleChange}></input>
         </div>
         <div style={divStyles}>
         <label style={labelStyles}>Actions</label>
-        <textarea form="newPostForm" required name="actions" style={textAreaStyles} placeholder="Enter actions here" onChange={handleChange}></textarea>
+        <textarea form="newActionForm" required name="actions" style={textAreaStyles} placeholder="Enter actions here" onChange={handleChange}></textarea>
         </div>
         <input type="submit" value="Add action"></input>
     </form> 
