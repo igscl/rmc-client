@@ -8,6 +8,9 @@ import NewAction from './components/NewAction'
 import EditAction from './components/EditAction'
 import stateReducer from './config/stateReducer'
 import { StateContext } from './config/store'
+import Login from './components/Login'
+import Register from './components/Register'
+import {getUserFromLocalStorage, getAdminFromLocalStorage} from './services/authServices'
 
 const App = () => {
 
@@ -18,15 +21,24 @@ const App = () => {
 
   // const [actions, setActions] = useState([])
   const [store,dispatch] = useReducer(stateReducer,initialState)
-  const {actionsData, loggedInUser} = store
+  const {actionsData, loggedInUser, adminUser} = store
 
 
   useEffect(() => {
     dispatch({
-      type: "setActions",
-      data: actionData
-    })
-},[])
+			type: 'setLoggedInUser',
+			data: getUserFromLocalStorage(),
+		});
+		dispatch({
+			type: 'setAdminUser',
+			data: getAdminFromLocalStorage(),
+		})
+    loggedInUser &&
+      dispatch({
+        type: "setActions",
+        data: actionData
+      })
+},[loggedInUser, adminUser])
 
   // Returns a single post based on the id provided
   function getActionFromId(id) {
@@ -49,18 +61,36 @@ const App = () => {
       data: [...otherActions, updatedAction]
     })
   }
+  
+    // Login user
+    function loginUser(user) {
+      dispatch({
+        type: "setLoggedInUser",
+        data: user.username
+      })
+    }
+  
+    // Logout user
+    function logoutUser() {
+      dispatch({
+        type: "setLoggedInUser",
+        data: null
+      })
+    }
 
 
   return (
     <div >
       <StateContext.Provider value ={{store, dispatch}} >
       <BrowserRouter>
-      <Nav />
+      <Nav loggedInUser={loggedInUser} logoutUser={logoutUser} />
         <h1>Hello!</h1>
         <Route exact path="/" component={Actions} />
         <Route exact path="/actions/:id" render={(props) => <Action {...props} action={getActionFromId(props.match.params.id)} showControls deleteAction={deleteAction}/> } />
         <Route exact path="/actions/new" component={NewAction}/>
         <Route exact path="/actions/edit/:id" render={(props) => <EditAction {...props} updateAction={updateAction} action={getActionFromId(props.match.params.id)}/> }/>
+        <Route exact path="/users/login" render={(props) => <Login {...props} loginUser={loginUser}/>} />
+        <Route exact path="/users/register" component={Register}/>
 
 
       </BrowserRouter>
