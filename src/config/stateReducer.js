@@ -15,7 +15,7 @@ function stateReducer(state, action) {
         case 'setAdminUser': {
 			return {
 				...state,
-				adminUser: action.data,
+				adminUser: action.data
 			}
         }
         default: 

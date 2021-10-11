@@ -33,7 +33,7 @@ const App = () => {
 			type: 'setAdminUser',
 			data: getAdminFromLocalStorage(),
 		})
-    loggedInUser &&
+    adminUser &&
       dispatch({
         type: "setActions",
         data: actionData

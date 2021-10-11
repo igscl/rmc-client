@@ -1,9 +1,9 @@
 import React from 'react'
 import {Link} from 'react-router-dom'
 import { useGlobalState } from '../config/store'
+import { logoutUser, setAdminInLocalStorage, setUserInLocalStorage } from '../services/authServices'
 
 const Nav = () => {
-    // const {store, dispatch} = useGlobalState()
 
     const divStyles = {
         display: 'flex',
@@ -13,17 +13,33 @@ const Nav = () => {
         textDecoration: 'none',
         margin: '.5em' 
     }
-    // Logout user
-    function handleLogout() {
-        dispatch({
-        type: "setLoggedInUser",
-        data: null
-        })
-    }
 
     const {store, dispatch} = useGlobalState()
     const {loggedInUser} = store
     
+    function handleLogout() {
+		setUserInLocalStorage(null)
+        setAdminInLocalStorage(false)
+		logoutUser()
+			.then((response) => {
+				console.log('Got back response on logout', response.status);
+			})
+			.catch((error) => {
+				console.log(
+					'The server may be down - caught an exception on logout:',
+					error
+				);
+			});
+		dispatch({
+			type: 'setLoggedInUser',
+			data: null,
+		});
+		dispatch({
+			type: 'setAdminUser',
+			data: false,
+		});
+	}
+
     return (
         <div style={divStyles}>
                         {loggedInUser 
