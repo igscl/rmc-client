@@ -100,7 +100,7 @@ const NewAction = ({history}) => {
         <>
     <form id="newActionForm" onSubmit={handleSubmit}>
         {/* upload image begin */}
-        <input onChange={fileSelected} type="file" accept="image/*"></input>
+        <input onChange={fileSelected} type="file" accept="image/* ,.pdf"></input>
         {/* <input value={description} onChange={e => setDescription(e.target.value)} type="text"></input> */}
         {/* upload image end */}
         <div style={divStyles}>

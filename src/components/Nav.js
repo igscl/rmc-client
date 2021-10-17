@@ -41,21 +41,22 @@ const Nav = () => {
 	}
 
     return (
+        <>
         <div style={divStyles}>
+                <Link style={linkStyles} to="/">Home</Link>
                         {loggedInUser 
-            ? (<div>
+            ? (<>
                 <Link style={linkStyles} to="/">{loggedInUser}</Link>
                 <Link style={linkStyles} onClick={handleLogout} to="/">Logout</Link>
-                </div>)
-            : (<div>
-                <Link style={linkStyles} to="/">guest</Link>
+                </>)
+            : (<>
                 <Link style={linkStyles} to="/users/login">Login</Link>
                 <Link style={linkStyles} to="/users/register">Register</Link>
-                </div>)
+                </>)
             }
-            <Link style={linkStyles} to="/">Home</Link>
             <Link style={linkStyles} to="/actions/new">Add a post</Link>
         </div>
+        </>
     )
 }
 

@@ -80,7 +80,8 @@ const App = () => {
 
   return (
     <div >
-      <img src="http://localhost:3009/actions/upload/8616c9f30ceb9c65c3248c998ee7c183" alt="hello" />
+      {loggedInUser &&
+      <img src="http://localhost:3009/actions/upload/8616c9f30ceb9c65c3248c998ee7c183" alt="hello" />}
       <StateContext.Provider value ={{store, dispatch}} >
       <BrowserRouter>
       <Nav loggedInUser={loggedInUser} logoutUser={logoutUser} />
