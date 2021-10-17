@@ -35,7 +35,7 @@ const Action = ({action, showControls, history, deleteAction}) => {
             {showControls && (
                 <div>
                     <button onClick={handleDelete}>Delete</button>
-                    <button style={buttonStyles} onClick={handleEdit}>Edit</button>
+                    <button style={buttonStyles} onClick={handleEdit}>Edito</button>
                 </div>
             )}
             </Link>

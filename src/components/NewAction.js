@@ -2,6 +2,7 @@ import React from 'react'
 import { useState } from 'react'
 import {withRouter} from 'react-router-dom'
 import { useGlobalState } from '../config/store'
+import api from '../config/api'
 
 
 const NewAction = ({history}) => {
@@ -15,6 +16,13 @@ const NewAction = ({history}) => {
         data: [...actionsData, action]
         })
     }
+    // // add an upload to Actions
+    // function addUpload(upload) {
+    //     dispatch({
+    //     type: "setUpload",
+    //     data: [...uploadData, upload]
+    //     })
+    // }
     
     function getNextId(){
         const ids = actionsData.map((action) => action._id)
@@ -36,8 +44,20 @@ const NewAction = ({history}) => {
             [name]: value
         })
     }
+//image upload begin
+    const [file, setFile] = useState()
+    const [images, setImages] = useState([])
 
-    function handleSubmit(event) {
+    async function postImage({image, description}) {
+        const formData = new FormData();
+        formData.append("image", image)
+        formData.append("description", description)
+      
+        const result = await api.post('/actions/upload', formData, { headers: {'Content-Type': 'multipart/form-data'}})
+        return result.data
+      }
+// img upload end
+    async function handleSubmit(event) {
         event.preventDefault()
         const nextId = getNextId()
         const newAction = {
@@ -47,8 +67,18 @@ const NewAction = ({history}) => {
             actions: formState.actions
         }
         addAction(newAction)
+        //img upload begin
+        const result = await postImage({image: file})
+        setImages([result.image, ...images])
+        //img upload end
         history.push(`/actions/${nextId}`)
     }
+//img upload begin
+      const fileSelected = event => {
+        const file = event.target.files[0]
+            setFile(file)
+        }
+//img upload end
 
     const divStyles = {
         display: "grid",
@@ -67,7 +97,12 @@ const NewAction = ({history}) => {
         width: "70vw"
     }
     return (
+        <>
     <form id="newActionForm" onSubmit={handleSubmit}>
+        {/* upload image begin */}
+        <input onChange={fileSelected} type="file" accept="image/*"></input>
+        {/* <input value={description} onChange={e => setDescription(e.target.value)} type="text"></input> */}
+        {/* upload image end */}
         <div style={divStyles}>
         <label style={labelStyles}>Title</label>
         <input style={inputStyles} required type="text" name="title" placeholder="Enter a title" onChange={handleChange}></input>
@@ -77,7 +112,9 @@ const NewAction = ({history}) => {
         <textarea form="newActionForm" required name="actions" style={textAreaStyles} placeholder="Enter actions here" onChange={handleChange}></textarea>
         </div>
         <input type="submit" value="Add action"></input>
-    </form> 
+    </form>
+    </>
+
     )
 }
 
