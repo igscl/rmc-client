@@ -2,7 +2,7 @@ import React, {useEffect, useReducer} from 'react'
 import { BrowserRouter, Route } from 'react-router-dom'
 import Actions from './components/Actions'
 import Action from './components/Action'
-import actionData from './data/post_data'
+// import actionData from './data/post_data'
 import Nav from './components/Nav'
 import NewAction from './components/NewAction'
 import EditAction from './components/EditAction'
@@ -11,12 +11,14 @@ import { StateContext } from './config/store'
 import Login from './components/Login'
 import Register from './components/Register'
 import {getUserFromLocalStorage, getAdminFromLocalStorage} from './services/authServices'
+import { getAllActions, getAction } from './services/actionServices'
 
 const App = () => {
 
   const initialState = {
     actionsData: [],
-    loggedInUser: null
+    loggedInUser: null,
+    // actions: []
   }
 
   // const [actions, setActions] = useState([])
@@ -33,12 +35,28 @@ const App = () => {
 			type: 'setAdminUser',
 			data: getAdminFromLocalStorage(),
 		})
-    adminUser &&
-      dispatch({
-        type: "setActions",
-        data: actionData
-      })
+    // adminUser &&
+    //   dispatch({
+    //     type: "setActions",
+    //     data: actionData
+    //   })
 },[loggedInUser, adminUser])
+
+
+function fetchActions() {
+  getAllActions().then((actionData) => {
+    dispatch({
+      type: "setActions",
+      data: actionData
+    })
+  }).catch((error) => {
+    console.log("An error occurred fetching blog posts from the server:", error) 
+  })
+}
+
+useEffect(() => {
+  fetchActions()
+},[loggedInUser])
 
   // Returns a single post based on the id provided
   function getActionFromId(id) {
@@ -87,7 +105,7 @@ const App = () => {
       <Nav loggedInUser={loggedInUser} logoutUser={logoutUser} />
         <h1>Hello!</h1>
         <Route exact path="/" component={Actions} />
-        <Route exact path="/actions/:id" render={(props) => <Action {...props} action={getActionFromId(props.match.params.id)} showControls deleteAction={deleteAction}/> } />
+        <Route exact path="/actions/:id" render={(props) => <Action {...props} action={getAction(actionsData, props.match.params.id)} showControls/> } />
         <Route exact path="/actions/new" component={NewAction}/>
         <Route exact path="/actions/edit/:id" render={(props) => <EditAction {...props} updateAction={updateAction} action={getActionFromId(props.match.params.id)}/> }/>
         <Route exact path="/users/login" render={(props) => <Login {...props} loginUser={loginUser}/>} />

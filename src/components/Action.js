@@ -1,7 +1,30 @@
-import React from "react"
+import React, {useState, useEffect} from "react"
 import {Link} from 'react-router-dom'
+import { getAction } from "../services/actionServices"
+import { useGlobalState } from "../config/store"
+
+// import { useGlobalState } from "../config/store";
 
 const Action = ({action, showControls, history, deleteAction}) => {
+    // const { store } = useGlobalState();
+    // const {actionsData} = store
+
+    // const initialState = {
+    //     actions: "",
+    //     title: ""
+    // }
+
+    // const [actionData, setActionData] = useState(initialState)
+
+    // useEffect(() => {
+    //     getAction(action).then((result) =>{
+    //         setActionData(result)
+    //     })
+    //     .catch((error) =>{
+    //         console.log('An error occurred', error)
+    //     })
+    // })
+    console.log(action)
     if(!action) return null
 
     const linkStyles = {
@@ -13,7 +36,7 @@ const Action = ({action, showControls, history, deleteAction}) => {
         fontSize: '1em'
     }
 
-    const {title, modified_date, actions} = action
+
 
     function handleDelete(event) {
         event.preventDefault()
@@ -26,11 +49,14 @@ const Action = ({action, showControls, history, deleteAction}) => {
         history.push(`/actions/edit/${action._id}`)
     }
 
+    const {title, create_date, actions} = action
+    console.log("here I am",title)
+
     return (
         <div>
             <Link style={linkStyles} to={`/actions/${action._id}`}>
             <h1>{title}</h1>
-            <p>{modified_date.toLocaleString()}</p>
+            <p>{create_date.toLocaleString()}</p>
             <p>{actions}</p>
             {showControls && (
                 <div>
