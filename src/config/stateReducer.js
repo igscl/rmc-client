@@ -6,6 +6,12 @@ function stateReducer(state, action) {
                 actionsData: action.data
             }
         }
+        case "addAction": {
+            return {
+                ...state,
+                actionsData: action.data
+            }
+        }
         case "setUpload": {
             return {
                 ...state,

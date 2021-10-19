@@ -18,3 +18,16 @@ export function getAction(actionsData,id) {
     console.log(data)
     return data
 }
+
+// Deletes a post on the server
+export async function removeAction(id) {
+    const response = await api.delete(`/actions/${id}`)
+    console.log("response from delete",response)
+    return response.data
+}
+
+//add an action
+export async function addAction(newAction) {
+    const response = await api.post("/actions", newAction)
+    return response.data
+}

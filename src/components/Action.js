@@ -1,29 +1,13 @@
-import React, {useState, useEffect} from "react"
+import React from "react"
 import {Link} from 'react-router-dom'
-import { getAction } from "../services/actionServices"
+import {removeAction} from '../services/actionServices'
 import { useGlobalState } from "../config/store"
 
-// import { useGlobalState } from "../config/store";
+const Action = ({action, showControls, history}) => {
+    const { store, dispatch } = useGlobalState()
+    const {actionsData} = store
 
-const Action = ({action, showControls, history, deleteAction}) => {
-    // const { store } = useGlobalState();
-    // const {actionsData} = store
 
-    // const initialState = {
-    //     actions: "",
-    //     title: ""
-    // }
-
-    // const [actionData, setActionData] = useState(initialState)
-
-    // useEffect(() => {
-    //     getAction(action).then((result) =>{
-    //         setActionData(result)
-    //     })
-    //     .catch((error) =>{
-    //         console.log('An error occurred', error)
-    //     })
-    // })
     console.log(action)
     if(!action) return null
 
@@ -40,17 +24,31 @@ const Action = ({action, showControls, history, deleteAction}) => {
 
     function handleDelete(event) {
         event.preventDefault()
-        deleteAction(action._id)
-        history.push("/")
-    }
+        removeAction(action._id)
+        .then(() => {
+            const updatedActions = actionsData.filter(
+                (event) => event._id !== action._id
+            );
+            dispatch({
+                type: 'setActions',
+                data: updatedActions,
+            });
+            history.push('/');
+        })
+        .catch((error) => {
+            console.log('Failed to delete action', error);
+        })
+}
+    
     // Handle the edit button
     function handleEdit(event) {
         event.preventDefault()
         history.push(`/actions/edit/${action._id}`)
     }
 
-    const {title, create_date, actions} = action
+    const {title, create_date, actions, files} = action
     console.log("here I am",title)
+    console.log(files[0])
 
     return (
         <div>
@@ -58,13 +56,14 @@ const Action = ({action, showControls, history, deleteAction}) => {
             <h1>{title}</h1>
             <p>{create_date.toLocaleString()}</p>
             <p>{actions}</p>
+            </Link>
+            <p>{files.map((item,i) => <a href={`http://localhost:3009/actions/upload/${item}`}> <li key={i}>Archivo adjunto {i+1}</li></a>)}</p>
             {showControls && (
                 <div>
                     <button style={buttonStyles} onClick={handleDelete}>Delete</button>
                     <button style={buttonStyles} onClick={handleEdit}>Edit</button>
                 </div>
             )}
-            </Link>
         </div>
     )
 

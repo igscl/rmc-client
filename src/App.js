@@ -105,7 +105,7 @@ useEffect(() => {
       <Nav loggedInUser={loggedInUser} logoutUser={logoutUser} />
         <h1>Hello!</h1>
         <Route exact path="/" component={Actions} />
-        <Route exact path="/actions/:id" render={(props) => <Action {...props} action={getAction(actionsData, props.match.params.id)} showControls/> } />
+        <Route exact path="/actions/:id" render={(props) => <Action {...props} action={getAction(actionsData, props.match.params.id)} showControls deleteAction={deleteAction}/> } />
         <Route exact path="/actions/new" component={NewAction}/>
         <Route exact path="/actions/edit/:id" render={(props) => <EditAction {...props} updateAction={updateAction} action={getActionFromId(props.match.params.id)}/> }/>
         <Route exact path="/users/login" render={(props) => <Login {...props} loginUser={loginUser}/>} />

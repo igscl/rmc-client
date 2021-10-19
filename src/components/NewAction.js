@@ -3,37 +3,20 @@ import { useState } from 'react'
 import {withRouter} from 'react-router-dom'
 import { useGlobalState } from '../config/store'
 import api from '../config/api'
+import { addAction } from '../services/actionServices'
 
 
 const NewAction = ({history}) => {
     const {store,dispatch} = useGlobalState()
     const {actionsData} = store
 
-    //add an action to Actions
-    function addAction(action) {
-        dispatch({
-        type: "setActions",
-        data: [...actionsData, action]
-        })
-    }
-    // // add an upload to Actions
-    // function addUpload(upload) {
-    //     dispatch({
-    //     type: "setUpload",
-    //     data: [...uploadData, upload]
-    //     })
-    // }
-    
-    function getNextId(){
-        const ids = actionsData.map((action) => action._id)
-        return ids.sort()[ids.length-1] + 1
-    }
-
 
     const initialFormState = {
         title: "",
         actions: ""
     } 
+
+    const [errorMessage, setErrorMessage] = useState(null)
     const [formState,setFormState] = useState(initialFormState)
 
     function handleChange(event) {
@@ -44,39 +27,50 @@ const NewAction = ({history}) => {
             [name]: value
         })
     }
+
 //image upload begin
     const [file, setFile] = useState()
-    const [images, setImages] = useState([])
 
-    async function postImage({image, description}) {
+    async function postImage({image}) {
         const formData = new FormData();
         formData.append("image", image)
-        formData.append("description", description)
+        // formData.append("description", description)
       
         const result = await api.post('/actions/upload', formData, { headers: {'Content-Type': 'multipart/form-data'}})
+        console.log("RESULT", result)
         return result.data
       }
 // img upload end
     async function handleSubmit(event) {
         event.preventDefault()
-        const nextId = getNextId()
         const newAction = {
-            _id: nextId,
             title: formState.title,
             modified_date: new Date(),
-            actions: formState.actions
+            actions: formState.actions,
+            files: []
         }
-        addAction(newAction)
         //img upload begin
         const result = await postImage({image: file})
-        setImages([result.image, ...images])
+        console.log("RESULT2", result)
+        newAction.files.push(result.file)
         //img upload end
-        history.push(`/actions/${nextId}`)
-    }
+        // newAction.files.push([result.image.filename])
+        console.log("NA",newAction)
+        // console.log("result image",images)
+        addAction(newAction).then((newAction) => {
+            const otherActions = actionsData.filter((action) => action._id !== newAction._id)
+            dispatch({
+                type: "addAction",
+                data: [newAction, ...otherActions]
+            })
+        
+        history.push(`/actions/${newAction._id}`)
+    })}
 //img upload begin
       const fileSelected = event => {
         const file = event.target.files[0]
             setFile(file)
+            console.log("FILEEEE",file)
         }
 //img upload end
 
@@ -101,7 +95,6 @@ const NewAction = ({history}) => {
     <form id="newActionForm" onSubmit={handleSubmit}>
         {/* upload image begin */}
         <input onChange={fileSelected} type="file" accept="image/* ,.pdf"></input>
-        {/* <input value={description} onChange={e => setDescription(e.target.value)} type="text"></input> */}
         {/* upload image end */}
         <div style={divStyles}>
         <label style={labelStyles}>Title</label>
