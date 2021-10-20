@@ -8,7 +8,7 @@ const Events = () => {
     const {eventsData} = store
     return(
         <div>
-            {eventsData.sort((a,b) => moment(b.date).format('X')-moment(a.date).format('X')).map((event) => <Event key={event._id} event={event} />)} 
+            {eventsData.sort((a,b) => moment(b.date).format('X')-moment(a.date).format('X')).slice(0, 2).map((event) => <Event key={event._id} event={event} />)} 
         </div>
     )
 }
