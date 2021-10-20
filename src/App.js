@@ -11,7 +11,7 @@ import { StateContext } from './config/store'
 import Login from './components/Login'
 import Register from './components/Register'
 import {getUserFromLocalStorage, getAdminFromLocalStorage} from './services/authServices'
-import { getAllActions, getAction } from './services/actionServices'
+import { getAllActions } from './services/actionServices'
 
 const App = () => {
 
@@ -60,7 +60,8 @@ useEffect(() => {
 
   // Returns a single post based on the id provided
   function getActionFromId(id) {
-  return actionsData.find((action) =>  action._id === parseInt(id))
+    console.log("getActionFromId",actionsData)
+  return actionsData.find((action) =>  action._id === id)
   }
 
   function deleteAction(id) {
@@ -99,13 +100,13 @@ useEffect(() => {
   return (
     <div >
       {loggedInUser &&
-      <img src="http://localhost:3009/actions/upload/8616c9f30ceb9c65c3248c998ee7c183" alt="hello" />}
+      <img src="http://localhost:3009/actions/upload/1794ea2b2715231d1c80c8fccf01e725" alt="hello" />}
       <StateContext.Provider value ={{store, dispatch}} >
       <BrowserRouter>
       <Nav loggedInUser={loggedInUser} logoutUser={logoutUser} />
         <h1>Hello!</h1>
         <Route exact path="/" component={Actions} />
-        <Route exact path="/actions/:id" render={(props) => <Action {...props} action={getAction(actionsData, props.match.params.id)} showControls deleteAction={deleteAction}/> } />
+        <Route exact path="/actions/:id" render={(props) => <Action {...props} action={getActionFromId(props.match.params.id)} showControls deleteAction={deleteAction}/> } />
         <Route exact path="/actions/new" component={NewAction}/>
         <Route exact path="/actions/edit/:id" render={(props) => <EditAction {...props} updateAction={updateAction} action={getActionFromId(props.match.params.id)}/> }/>
         <Route exact path="/users/login" render={(props) => <Login {...props} loginUser={loginUser}/>} />

@@ -14,9 +14,9 @@ const NewAction = ({history}) => {
     const initialFormState = {
         title: "",
         actions: ""
-    } 
+    }
 
-    const [errorMessage, setErrorMessage] = useState(null)
+    // const [errorMessage, setErrorMessage] = useState(null)
     const [formState,setFormState] = useState(initialFormState)
 
     function handleChange(event) {
@@ -30,6 +30,7 @@ const NewAction = ({history}) => {
 
 //image upload begin
     const [file, setFile] = useState()
+    const [click, setClick] = useState(false)
 
     async function postImage({image}) {
         const formData = new FormData();
@@ -40,30 +41,38 @@ const NewAction = ({history}) => {
         console.log("RESULT", result)
         return result.data
       }
+
+    const handleButtonClick = () => {
+        setClick(true)
+    }
 // img upload end
     async function handleSubmit(event) {
         event.preventDefault()
+        setClick(true)
+        console.log("BEFORE",click)
+        // if (click) {
+        //     console.log("already uploading")
+        //     return null
+        // }
         const newAction = {
             title: formState.title,
-            modified_date: new Date(),
             actions: formState.actions,
             files: []
         }
         //img upload begin
-        const result = await postImage({image: file})
-        console.log("RESULT2", result)
-        newAction.files.push(result.file)
+        if (file){
+            const result = await postImage({image: file})
+            console.log("RESULT2", result)
+            newAction.files.push(result.file)
+        }
         //img upload end
-        // newAction.files.push([result.image.filename])
         console.log("NA",newAction)
-        // console.log("result image",images)
         addAction(newAction).then((newAction) => {
             const otherActions = actionsData.filter((action) => action._id !== newAction._id)
             dispatch({
                 type: "addAction",
                 data: [newAction, ...otherActions]
             })
-        
         history.push(`/actions/${newAction._id}`)
     })}
 //img upload begin
@@ -104,7 +113,7 @@ const NewAction = ({history}) => {
         <label style={labelStyles}>Actions</label>
         <textarea form="newActionForm" required name="actions" style={textAreaStyles} placeholder="Enter actions here" onChange={handleChange}></textarea>
         </div>
-        <input type="submit" value="Add action"></input>
+        <button type="submit" value="Add action" disabled={click}>Submit!</button>
     </form>
     </>
 

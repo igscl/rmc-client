@@ -2,13 +2,14 @@ import React from "react"
 import {Link} from 'react-router-dom'
 import {removeAction} from '../services/actionServices'
 import { useGlobalState } from "../config/store"
+// const moment = require('moment');
 
 const Action = ({action, showControls, history}) => {
     const { store, dispatch } = useGlobalState()
     const {actionsData} = store
 
 
-    console.log(action)
+    // console.log(action)
     if(!action) return null
 
     const linkStyles = {
@@ -18,6 +19,10 @@ const Action = ({action, showControls, history}) => {
     const buttonStyles = {
         margin: '.5em',
         fontSize: '1em'
+    }
+
+    const lineStyles = {
+        whiteSpace: 'pre-line',
     }
 
 
@@ -47,22 +52,31 @@ const Action = ({action, showControls, history}) => {
     }
 
     const {title, create_date, actions, files} = action
-    console.log("here I am",title)
-    console.log(files[0])
 
     return (
         <div>
             <Link style={linkStyles} to={`/actions/${action._id}`}>
             <h1>{title}</h1>
             <p>{create_date.toLocaleString()}</p>
-            <p>{actions}</p>
+            <p style={lineStyles}>{actions}</p>
             </Link>
-            <p>{files.map((item,i) => <a href={`http://localhost:3009/actions/upload/${item}`}> <li key={i}>Archivo adjunto {i+1}</li></a>)}</p>
             {showControls && (
+            <>
+                <ul>
+                {files.map((item,i) => 
+                <li key={`${item}`}>
+                    <a href={`http://localhost:3009/actions/upload/${item}`} target="_blank" rel="noreferrer" download> 
+                    Archivo adjunto {i+1}
+                    </a>
+                    </li>)}
+                </ul>
+            
+            
                 <div>
                     <button style={buttonStyles} onClick={handleDelete}>Delete</button>
                     <button style={buttonStyles} onClick={handleEdit}>Edit</button>
                 </div>
+            </>
             )}
         </div>
     )
