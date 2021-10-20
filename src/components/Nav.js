@@ -46,7 +46,7 @@ const Nav = () => {
                 <Link style={linkStyles} to="/">Home</Link>
                         {loggedInUser 
             ? (<>
-                <Link style={linkStyles} to="/">{loggedInUser}</Link>
+                <Link style={linkStyles} to="/Profile">Profile</Link>
                 <Link style={linkStyles} onClick={handleLogout} to="/">Logout</Link>
                 </>)
             : (<>
@@ -54,7 +54,7 @@ const Nav = () => {
                 <Link style={linkStyles} to="/users/register">Register</Link>
                 </>)
             }
-            <Link style={linkStyles} to="/actions/new">Add a post</Link>
+            <Link style={linkStyles} to="/actions/new">Add an Action</Link>
         </div>
         </>
     )

@@ -3,6 +3,7 @@ import { BrowserRouter, Route } from 'react-router-dom'
 import Actions from './components/Actions'
 import Events from './components/Events'
 import Event from './components/Event'
+import Profile from './components/Profile'
 import Action from './components/Action'
 // import actionData from './data/post_data'
 import Nav from './components/Nav'
@@ -39,6 +40,7 @@ const App = () => {
 			type: 'setAdminUser',
 			data: getAdminFromLocalStorage(),
 		})
+    console.log("loggedinuser",loggedInUser)
     // adminUser &&
     //   dispatch({
     //     type: "setActions",
@@ -125,10 +127,9 @@ useEffect(() => {
       <StateContext.Provider value ={{store, dispatch}} >
       <BrowserRouter>
       <Nav loggedInUser={loggedInUser} logoutUser={logoutUser} />
-        <h1>Próximas reuniones:</h1>
+        <Route exact path="/profile" component={Profile} />
         <Route exact path="/" component={Events} />
         <Route exact path="/events/:id" render={(props) => <Event {...props} event={getEventFromId(props.match.params.id)} showControls/> } />
-        <h1>Acciones semanales:</h1>
         <Route exact path="/" component={Actions} />
         <Route exact path="/actions/:id" render={(props) => <Action {...props} action={getActionFromId(props.match.params.id)} showControls deleteAction={deleteAction}/> } />
         <Route exact path="/actions/new" component={NewAction}/>

@@ -1,11 +1,11 @@
 import React from "react"
 import {Link} from 'react-router-dom'
-import { useGlobalState } from "../config/store"
+// import { useGlobalState } from "../config/store"
 import moment from 'moment'
 
 const Event = ({event, showControls, history}) => {
-    const { store, dispatch } = useGlobalState()
-    const {eventsData} = store
+    // const { store, dispatch } = useGlobalState()
+    // const {eventsData} = store
 
 
     if(!event) return null
