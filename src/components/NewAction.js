@@ -42,9 +42,6 @@ const NewAction = ({history}) => {
         return result.data
       }
 
-    const handleButtonClick = () => {
-        setClick(true)
-    }
 // img upload end
     async function handleSubmit(event) {
         event.preventDefault()
