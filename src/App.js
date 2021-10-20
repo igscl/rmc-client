@@ -1,6 +1,8 @@
 import React, {useEffect, useReducer} from 'react'
 import { BrowserRouter, Route } from 'react-router-dom'
 import Actions from './components/Actions'
+import Events from './components/Events'
+import Event from './components/Event'
 import Action from './components/Action'
 // import actionData from './data/post_data'
 import Nav from './components/Nav'
@@ -12,18 +14,20 @@ import Login from './components/Login'
 import Register from './components/Register'
 import {getUserFromLocalStorage, getAdminFromLocalStorage} from './services/authServices'
 import { getAllActions } from './services/actionServices'
+import { getAllEvents } from './services/eventServices'
 
 const App = () => {
 
   const initialState = {
     actionsData: [],
+    eventsData: [],
     loggedInUser: null,
     // actions: []
   }
 
   // const [actions, setActions] = useState([])
   const [store,dispatch] = useReducer(stateReducer,initialState)
-  const {actionsData, loggedInUser, adminUser} = store
+  const {actionsData, eventsData, loggedInUser, adminUser} = store
 
 
   useEffect(() => {
@@ -50,18 +54,35 @@ function fetchActions() {
       data: actionData
     })
   }).catch((error) => {
-    console.log("An error occurred fetching blog posts from the server:", error) 
+    console.log("An error occurred fetching actions from the server:", error) 
+  })
+}
+
+function fetchEvents() {
+  getAllEvents().then((eventData) => {
+    dispatch({
+      type: "setEvents",
+      data: eventData
+    })
+  }).catch((error) => {
+    console.log("An error occurred fetching events from the server:", error) 
   })
 }
 
 useEffect(() => {
   fetchActions()
+  fetchEvents()
 },[loggedInUser])
 
   // Returns a single post based on the id provided
   function getActionFromId(id) {
     console.log("getActionFromId",actionsData)
   return actionsData.find((action) =>  action._id === id)
+  }
+
+  function getEventFromId(id) {
+    console.log("getEventFromId",eventsData)
+  return eventsData.find((event) =>  event._id === id)
   }
 
   function deleteAction(id) {
@@ -104,8 +125,11 @@ useEffect(() => {
       <StateContext.Provider value ={{store, dispatch}} >
       <BrowserRouter>
       <Nav loggedInUser={loggedInUser} logoutUser={logoutUser} />
-        <h1>Hello!</h1>
+        <h1>Próximas reuniones:</h1>
+        <Route exact path="/" component={Events} />
+        <h1>Acciones semanales:</h1>
         <Route exact path="/" component={Actions} />
+        <Route exact path="/events/:id" render={(props) => <Event {...props} event={getEventFromId(props.match.params.id)} showControls/> } />
         <Route exact path="/actions/:id" render={(props) => <Action {...props} action={getActionFromId(props.match.params.id)} showControls deleteAction={deleteAction}/> } />
         <Route exact path="/actions/new" component={NewAction}/>
         <Route exact path="/actions/edit/:id" render={(props) => <EditAction {...props} updateAction={updateAction} action={getActionFromId(props.match.params.id)}/> }/>

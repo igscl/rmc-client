@@ -30,6 +30,12 @@ function stateReducer(state, action) {
 				adminUser: action.data
 			}
         }
+        case 'setEvents': {
+			return {
+				...state,
+				eventsData: action.data
+			}
+        }
         default: 
             return state
     }
