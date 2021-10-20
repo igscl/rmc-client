@@ -2,7 +2,7 @@ import React from "react"
 import {Link} from 'react-router-dom'
 import {removeAction} from '../services/actionServices'
 import { useGlobalState } from "../config/store"
-// const moment = require('moment');
+import moment from 'moment'
 
 const Action = ({action, showControls, history}) => {
     const { store, dispatch } = useGlobalState()
@@ -57,7 +57,7 @@ const Action = ({action, showControls, history}) => {
         <div>
             <Link style={linkStyles} to={`/actions/${action._id}`}>
             <h1>{title}</h1>
-            <p>{create_date.toLocaleString()}</p>
+            <p>{moment(create_date).format('MMMM Do, h:mm a')}</p>
             <p style={lineStyles}>{actions}</p>
             </Link>
             {showControls && (
