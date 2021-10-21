@@ -54,6 +54,7 @@ const Action = ({action, showControls, history}) => {
     const {title, create_date, actions, files} = action
 
     return (
+        <>
         <div>
             <Link style={linkStyles} to={`/actions/${action._id}`}>
             <h1>{title}</h1>
@@ -79,6 +80,7 @@ const Action = ({action, showControls, history}) => {
             </>
             )}
         </div>
+        </>
     )
 
 }

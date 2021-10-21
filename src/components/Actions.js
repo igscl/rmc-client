@@ -7,10 +7,12 @@ const Actions = () => {
     const {store} = useGlobalState()
     const {actionsData} = store
     return(
+        <>
         <div>
             <h1>Acciones semanales:</h1>
             {actionsData.sort((a,b) => moment(b.create_date).format('X')-moment(a.create_date).format('X')).map((action) => <Action key={action._id} action={action} />)} 
         </div>
+        </>
     )
 }
 
