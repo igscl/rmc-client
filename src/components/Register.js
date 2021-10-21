@@ -7,6 +7,7 @@ import Col from 'react-bootstrap/Col'
 import Form from 'react-bootstrap/Form'
 import Button from 'react-bootstrap/Button'
 
+
 const Register = ({history}) => {
     const {dispatch} = useGlobalState()
 
@@ -54,6 +55,8 @@ const Register = ({history}) => {
 
     
     return (
+        
+    <>
 
         <Container>
         <p></p>
@@ -83,6 +86,7 @@ const Register = ({history}) => {
             </Col>
         </Row>
     </Container >
+    </>
     )
 
 }

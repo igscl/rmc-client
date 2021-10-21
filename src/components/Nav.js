@@ -8,14 +8,14 @@ import { BellIcon, MenuIcon, XIcon } from '@heroicons/react/outline'
 
 const Nav = () => {
 
-    const divStyles = {
-        display: 'flex',
-    }
-    const linkStyles = {
-        fontSize: '1.2em',
-        textDecoration: 'none',
-        margin: '.5em' 
-    }
+    // const divStyles = {
+    //     display: 'flex',
+    // }
+    // const linkStyles = {
+    //     fontSize: '1.2em',
+    //     textDecoration: 'none',
+    //     margin: '.5em' 
+    // }
 
     const {store, dispatch} = useGlobalState()
     const {loggedInUser} = store
@@ -54,8 +54,13 @@ const Nav = () => {
         { name: 'Inicio', href: '/', current: true },
         { name: 'Perfil', href: '/profile', current: false },
         { name: 'Nodos', href: '/', current: false },
-        { name: 'Calendario', href: '#', current: false },
       ]
+
+    const navigationRegister = [
+        { name: 'Inicio', href: '/', current: true },
+        { name: 'Ingresar', href: '/users/login', current: false },
+        { name: 'Registrarse', href: '/users/register', current: false }
+    ]
 
     function classNames(...classes) {
         return classes.filter(Boolean).join(' ')
@@ -92,12 +97,13 @@ const Nav = () => {
                     alt="Workflow"
                   />
                 </div>
-                <div className="hidden sm:block sm:ml-6">
+                {loggedInUser ? (<>
+                    <div className="hidden sm:block sm:ml-6">
                   <div className="flex space-x-4">
                     {navigation.map((item) => (
-                      <a
+                      <Link
                         key={item.name}
-                        href={item.href}
+                        to={item.href}
                         className={classNames(
                           item.current ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white',
                           'px-3 py-2 rounded-md text-sm font-medium'
@@ -105,10 +111,30 @@ const Nav = () => {
                         aria-current={item.current ? 'page' : undefined}
                       >
                         {item.name}
-                      </a>
+                      </Link>
                     ))}
+                    {/* <Link onClick={handleLogout} to="/"className={classNames('text-gray-300 hover:bg-gray-700 hover:text-white',
+        'px-3 py-2 rounded-md text-sm font-medium')}>Cerrar Sesión</Link> */}
                   </div>
                 </div>
+                </>):(<>
+                    <div className="hidden sm:block sm:ml-6">
+                  <div className="flex space-x-4">
+                    {navigationRegister.map((item) => (
+                      <Link
+                        key={item.name}
+                        to={item.href}
+                        className={classNames(
+                          item.current ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white',
+                          'px-3 py-2 rounded-md text-sm font-medium'
+                        )}
+                        aria-current={item.current ? 'page' : undefined}
+                      >
+                        {item.name}
+                      </Link>
+                    ))}
+                  </div>
+                </div></>)}
               </div>
               <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
                 <button
@@ -163,12 +189,12 @@ const Nav = () => {
                       </Menu.Item>
                       <Menu.Item>
                         {({ active }) => (
-                          <a
-                            href="/#"
+                          <Link to="/"
+                            onClick={handleLogout} 
                             className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
                           >
-                            Sign out
-                          </a>
+                            Cerrar Sesión
+                          </Link>
                         )}
                       </Menu.Item>
                     </Menu.Items>
@@ -180,11 +206,13 @@ const Nav = () => {
 
           <Disclosure.Panel className="sm:hidden">
             <div className="px-2 pt-2 pb-3 space-y-1">
-              {navigation.map((item) => (
+                {loggedInUser?(<>
+                    {navigation.map((item) => (
+                <Link to = {item.href}>
                 <Disclosure.Button
                   key={item.name}
-                  as="a"
-                  href={item.href}
+                //   as="Link"
+                //   to={item.href}
                   className={classNames(
                     item.current ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white',
                     'block px-3 py-2 rounded-md text-base font-medium'
@@ -193,13 +221,33 @@ const Nav = () => {
                 >
                   {item.name}
                 </Disclosure.Button>
+                </Link>
               ))}
+                </>):(<>
+                    {navigationRegister.map((item) => (
+                <Link to = {item.href}>
+                <Disclosure.Button
+                  key={item.name}
+                //   as="Link"
+                //   to={item.href}
+                  className={classNames(
+                    item.current ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white',
+                    'block px-3 py-2 rounded-md text-base font-medium'
+                  )}
+                  aria-current={item.current ? 'page' : undefined}
+                >
+                  {item.name}
+                </Disclosure.Button>
+                </Link>
+              ))}
+                </>)}
+
             </div>
           </Disclosure.Panel>
         </>
       )}
     </Disclosure>
-        <div style={divStyles}>
+        {/* <div style={divStyles}>
                 <Link style={linkStyles} to="/">Home</Link>
                         {loggedInUser 
             ? (<>
@@ -212,7 +260,7 @@ const Nav = () => {
                 </>)
             }
             <Link style={linkStyles} to="/actions/new">Add an Action</Link>
-        </div>
+        </div> */}
         </>
     )
 }
