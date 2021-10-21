@@ -2,6 +2,7 @@ import React, {useEffect, useReducer} from 'react'
 import { BrowserRouter, Route } from 'react-router-dom'
 import Actions from './components/Actions'
 import Events from './components/Events'
+import IndexPage from './components/IndexPage'
 import Event from './components/Event'
 import Profile from './components/Profile'
 import Action from './components/Action'
@@ -128,9 +129,10 @@ useEffect(() => {
       <BrowserRouter>
       <Nav loggedInUser={loggedInUser} logoutUser={logoutUser} />
         <Route exact path="/profile" component={Profile} />
-        <Route exact path="/" component={Events} />
+        <Route exact path="/" component={IndexPage} />
+        <Route exact path="/events" component={Events} />        
         <Route exact path="/events/:id" render={(props) => <Event {...props} event={getEventFromId(props.match.params.id)} showControls/> } />
-        <Route exact path="/" component={Actions} />
+        <Route exact path="/actions" component={Actions} />
         <Route exact path="/actions/:id" render={(props) => <Action {...props} action={getActionFromId(props.match.params.id)} showControls deleteAction={deleteAction}/> } />
         <Route exact path="/actions/new" component={NewAction}/>
         <Route exact path="/actions/edit/:id" render={(props) => <EditAction {...props} updateAction={updateAction} action={getActionFromId(props.match.params.id)}/> }/>

@@ -52,9 +52,9 @@ const Nav = () => {
 	}
     const navigation = [
         { name: 'Inicio', href: '/', current: false },
-        { name: 'Acciones', href: '/', current: false },
         { name: 'Perfil', href: '/profile', current: false },
-        { name: 'Nodos', href: '/', current: false },
+        { name: 'Acciones', href: '/actions', current: false },
+        { name: 'Eventos', href: '/events', current: false },
         { name: 'Agregar Acción', href: '/actions/new', current: false },
       ]
 
