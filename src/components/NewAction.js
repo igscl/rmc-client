@@ -5,7 +5,6 @@ import { useGlobalState } from '../config/store'
 import api from '../config/api'
 import { addAction } from '../services/actionServices'
 
-
 const NewAction = ({history}) => {
     const {store,dispatch} = useGlobalState()
     const {actionsData} = store

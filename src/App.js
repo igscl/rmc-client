@@ -122,8 +122,8 @@ useEffect(() => {
 
   return (
     <div >
-      {loggedInUser &&
-      <img src="http://localhost:3009/actions/upload/1794ea2b2715231d1c80c8fccf01e725" alt="hello" />}
+      {/* {loggedInUser &&
+      <img src="http://localhost:3009/actions/upload/1794ea2b2715231d1c80c8fccf01e725" alt="hello" />} */}
       <StateContext.Provider value ={{store, dispatch}} >
       <BrowserRouter>
       <Nav loggedInUser={loggedInUser} logoutUser={logoutUser} />

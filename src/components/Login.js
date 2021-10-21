@@ -61,6 +61,7 @@ const Login = ({history}) => {
 		
   
     return (
+        <>
         <Container>
         <p></p>
         <Row className="justify-content-center">
@@ -81,6 +82,7 @@ const Login = ({history}) => {
             </Col>
         </Row>
     </Container >
+    </>
     )
 }
 export default Login
