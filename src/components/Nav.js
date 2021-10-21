@@ -55,7 +55,7 @@ const Nav = () => {
         { name: 'Perfil', href: '/profile', current: false },
         { name: 'Acciones', href: '/actions', current: false },
         { name: 'Eventos', href: '/events', current: false },
-        { name: 'Agregar Acción', href: '/actions/new', current: false },
+        { name: 'Agregar Accion', href: '/actions/new', current: false },
       ]
 
     const navigationRegister = [
@@ -210,7 +210,7 @@ const Nav = () => {
             <div className="px-2 pt-2 pb-3 space-y-1">
                 {loggedInUser?(<>
                     {navigation.map((item) => (
-                <Link to = {item.href}>
+                <Link to = {item.href} key= {item.name}>
                 <Disclosure.Button
                   key={item.name}
                 //   as="Link"
@@ -227,7 +227,7 @@ const Nav = () => {
               ))}
                 </>):(<>
                     {navigationRegister.map((item) => (
-                <Link to = {item.href}>
+                <Link to = {item.href} key= {item.name}>
                 <Disclosure.Button
                   key={item.name}
                 //   as="Link"
