@@ -28,16 +28,24 @@ const Nav = () => {
 				console.log(
 					'The server may be down - caught an exception on logout:',
 					error
-				);
-			});
+				)
+			})
 		dispatch({
 			type: 'setLoggedInUser',
 			data: null,
-		});
+		})
 		dispatch({
 			type: 'setAdminUser',
 			data: false,
-		});
+		})
+        dispatch({
+			type: 'setActions',
+			data: [],
+		})
+        dispatch({
+			type: 'setEvents',
+			data: [],
+		})
 	}
 
     return (
