@@ -26,3 +26,7 @@ export async function viewMyNodeMember() {
     // console.log("Leader of:",response.data)
     return response.data
 }
+
+export async function nodesCount() {
+    return api.get('/nodes/count')
+}

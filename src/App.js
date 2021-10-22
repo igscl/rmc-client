@@ -19,6 +19,7 @@ import {getUserFromLocalStorage, getAdminFromLocalStorage, usersCount} from './s
 import { getAllActions } from './services/actionServices'
 import { getAllEvents } from './services/eventServices'
 import Confirmation from './components/Confirmation'
+import { nodesCount } from './services/nodeServices'
 
 const App = () => {
 
@@ -26,7 +27,8 @@ const App = () => {
     actionsData: [],
     eventsData: [],
     loggedInUser: null,
-    usersCount: []
+    usersCount: [],
+    nodesCount: []
     // actions: []
   }
 
@@ -59,7 +61,20 @@ const App = () => {
           data: countData
         })
       }).catch((error) => {
-        console.log("An error occurred fetching events from the server:", error) 
+        console.log("An error occurred fetching users from the server:", error) 
+      })
+    
+    }
+
+    function fetchNumberOfNodes() {
+      nodesCount().then((countData) =>{
+        console.log("countdata", countData)
+        dispatch({
+          type: 'nodesCount',
+          data: countData
+        })
+      }).catch((error) => {
+        console.log("An error occurred fetching nodes from the server:", error) 
       })
     
     }
@@ -67,6 +82,7 @@ const App = () => {
     loggedInUser && fetchActions()
     loggedInUser && fetchEvents()
     loggedInUser && fetchNumberOfUsers()
+    loggedInUser && fetchNumberOfNodes()
 
 },[loggedInUser, adminUser])
 
