@@ -34,6 +34,7 @@ const NewAction = ({history}) => {
     async function postImage({image}) {
         const formData = new FormData();
         formData.append("image", image)
+        console.log("image",image)
         // formData.append("description", description)
       
         const result = await api.post('/actions/upload', formData, { headers: {'Content-Type': 'multipart/form-data'}})
@@ -59,7 +60,7 @@ const NewAction = ({history}) => {
         if (file){
             const result = await postImage({image: file})
             console.log("RESULT2", result)
-            newAction.files.push(result.file)
+            newAction.files.push([file.name, result.file])
         }
         //img upload end
         console.log("NA",newAction)

@@ -53,7 +53,7 @@ const EditAction = ({history, updateAction, action}) => {
         if (file){
             const result = await postImage({image: file})
             console.log("RESULT2", result)
-            newAction.files.push(result.file)
+            newAction.files.push([file.name, result.file])
         }
         // img up end
 
