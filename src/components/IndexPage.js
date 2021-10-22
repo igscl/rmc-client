@@ -1,10 +1,13 @@
 import React from "react";
+import Actions from './Actions'
+import Events from './Events'
 
 const IndexPage = () => {
 
     return(
         <div>
-        <h1>main page</h1>    
+        <Actions />
+        <Events />
         </div>
     )
 }

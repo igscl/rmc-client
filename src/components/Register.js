@@ -1,11 +1,11 @@
 import React, {useState} from "react";
 import { useGlobalState } from "../config/store";
 import { getUserFromLocalStorage, getAdminFromLocalStorage, setUserInLocalStorage, registerUser, setAdminInLocalStorage } from "../services/authServices";
-import Container from 'react-bootstrap/Container'
-import Row from 'react-bootstrap/Row'
-import Col from 'react-bootstrap/Col'
-import Form from 'react-bootstrap/Form'
-import Button from 'react-bootstrap/Button'
+// import Container from 'react-bootstrap/Container'
+// import Row from 'react-bootstrap/Row'
+// import Col from 'react-bootstrap/Col'
+// import Form from 'react-bootstrap/Form'
+// import Button from 'react-bootstrap/Button'
 import { LockClosedIcon } from '@heroicons/react/solid'
 
 const Register = ({history}) => {
@@ -111,7 +111,7 @@ const Register = ({history}) => {
                   onChange={handleChange}
                 />
               </div>
-              <div>
+              {/* <div>
                 <label htmlFor="tel" className="sr-only">
                 Username
                 </label>
@@ -126,7 +126,7 @@ const Register = ({history}) => {
                   value={userDetails.phoneNumber}
                   onChange={handleChange}
                 />
-              </div>
+              </div> */}
               <div>
                 <label htmlFor="password" className="sr-only">
                   Contraseña

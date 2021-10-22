@@ -5,7 +5,8 @@ import Events from './components/Events'
 import IndexPage from './components/IndexPage'
 import Event from './components/Event'
 import Profile from './components/Profile'
-import Action from './components/Action'
+// import Action from './components/Action'
+import ActionB from './components/ActionB'
 // import actionData from './data/post_data'
 import Nav from './components/Nav'
 import NewAction from './components/NewAction'
@@ -47,6 +48,10 @@ const App = () => {
     //     type: "setActions",
     //     data: actionData
     //   })
+
+    loggedInUser && fetchActions()
+    loggedInUser && fetchEvents()
+
 },[loggedInUser, adminUser])
 
 
@@ -72,10 +77,10 @@ function fetchEvents() {
   })
 }
 
-useEffect(() => {
-  fetchActions()
-  fetchEvents()
-},[loggedInUser])
+// useEffect(() => {
+//   fetchActions()
+//   fetchEvents()
+// },[loggedInUser])
 
   // Returns a single post based on the id provided
   function getActionFromId(id) {
@@ -133,7 +138,8 @@ useEffect(() => {
         <Route exact path="/events" component={Events} />        
         <Route exact path="/events/:id" render={(props) => <Event {...props} event={getEventFromId(props.match.params.id)} showControls/> } />
         <Route exact path="/actions" component={Actions} />
-        <Route exact path="/actions/:id" render={(props) => <Action {...props} action={getActionFromId(props.match.params.id)} showControls deleteAction={deleteAction}/> } />
+        {/* <Route exact path="/actions/:id" render={(props) => <Action {...props} action={getActionFromId(props.match.params.id)} showControls deleteAction={deleteAction}/> } /> */}
+        <Route exact path="/actions/:id" render={(props) => <ActionB {...props} action={getActionFromId(props.match.params.id)} showControls deleteAction={deleteAction}/> } />
         <Route exact path="/actions/new" component={NewAction}/>
         <Route exact path="/actions/edit/:id" render={(props) => <EditAction {...props} updateAction={updateAction} action={getActionFromId(props.match.params.id)}/> }/>
         <Route exact path="/users/login" render={(props) => <Login {...props} loginUser={loginUser}/>} />
