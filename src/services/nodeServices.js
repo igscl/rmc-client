@@ -1,8 +1,10 @@
 import api from "../config/api"
 
 // Returns all actions from the server
-export async function joinNode() {
-
+export async function joinNode(token) {
+    const response = await api.get(`/nodes/join?invitation=${token}`)
+    console.log("joined this node:",response.data)
+    return response.data
 }
 
 export async function exitNode() {

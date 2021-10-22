@@ -36,6 +36,12 @@ function stateReducer(state, action) {
 				eventsData: action.data
 			}
         }
+        case 'usersCount': {
+			return {
+				...state,
+				usersCount: action.data
+			}
+        }
         default: 
             return state
     }

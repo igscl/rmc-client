@@ -15,6 +15,7 @@ const Profile = () => {
 
 
     useEffect(() => {
+        console.log("profile useEffect")
         viewMyNodeLeader().then((response) => {
             setUserNodeLeader(response)
             console.log("LEADER",response)

@@ -51,6 +51,10 @@ export async function logoutUser() {
 	return api.get('/users/logout');
 }
 
+export async function usersCount() {
+    return api.get('/users/count')
+}
+
 // // Get loggedInUser from localStorage
 // export function getLoggedInUser() {
 // 	return localStorage.getItem('loggedInUser');

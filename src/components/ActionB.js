@@ -13,18 +13,18 @@ const ActionB = ({action, showControls, history}) => {
     // console.log(action)
     if(!action) return null
 
-    const linkStyles = {
-        textDecoration: 'none',
-        color: 'black' 
-    }
-    const buttonStyles = {
-        margin: '.5em',
-        fontSize: '1em'
-    }
+    // const linkStyles = {
+    //     textDecoration: 'none',
+    //     color: 'black' 
+    // }
+    // const buttonStyles = {
+    //     margin: '.5em',
+    //     fontSize: '1em'
+    // }
 
-    const lineStyles = {
-        whiteSpace: 'pre-line',
-    }
+    // const lineStyles = {
+    //     whiteSpace: 'pre-line',
+    // }
 
 
 
@@ -59,7 +59,7 @@ const ActionB = ({action, showControls, history}) => {
 
 <div className="bg-white shadow overflow-hidden sm:rounded-lg">
       <div className="px-4 py-5 sm:px-6">
-        <h3 className="text-lg leading-6 font-medium text-gray-900">Acción de la Semana</h3>
+        <h3 className="text-lg leading-6 font-medium text-gray-900"><Link to={`/actions/${action._id}`}>Acción de la Semana</Link></h3>
         <p className="mt-1 max-w-2xl text-sm text-gray-500">Semana 12 de Septiembre</p>
         {showControls && (<>
         <button className={"bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded"} onClick={handleDelete}>Borrar</button>

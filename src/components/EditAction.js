@@ -34,6 +34,7 @@ const EditAction = ({history, updateAction, action}) => {
 
     useEffect(() => {
         // Set the formState to the fields in the post after mount and when post changes
+        console.log("edit useEffect")
         action && setFormState({
             title: action.title,
             actions: action.actions,

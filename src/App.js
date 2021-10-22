@@ -15,9 +15,10 @@ import stateReducer from './config/stateReducer'
 import { StateContext } from './config/store'
 import Login from './components/Login'
 import Register from './components/Register'
-import {getUserFromLocalStorage, getAdminFromLocalStorage} from './services/authServices'
+import {getUserFromLocalStorage, getAdminFromLocalStorage, usersCount} from './services/authServices'
 import { getAllActions } from './services/actionServices'
 import { getAllEvents } from './services/eventServices'
+import Confirmation from './components/Confirmation'
 
 const App = () => {
 
@@ -25,6 +26,7 @@ const App = () => {
     actionsData: [],
     eventsData: [],
     loggedInUser: null,
+    usersCount: []
     // actions: []
   }
 
@@ -34,6 +36,7 @@ const App = () => {
 
 
   useEffect(() => {
+    console.log("app useEffect")
     dispatch({
 			type: 'setLoggedInUser',
 			data: getUserFromLocalStorage(),
@@ -49,8 +52,21 @@ const App = () => {
     //     data: actionData
     //   })
 
+    function fetchNumberOfUsers() {
+      usersCount().then((countData) =>{
+        dispatch({
+          type: 'usersCount',
+          data: countData
+        })
+      }).catch((error) => {
+        console.log("An error occurred fetching events from the server:", error) 
+      })
+    
+    }
+
     loggedInUser && fetchActions()
     loggedInUser && fetchEvents()
+    loggedInUser && fetchNumberOfUsers()
 
 },[loggedInUser, adminUser])
 
@@ -76,6 +92,8 @@ function fetchEvents() {
     console.log("An error occurred fetching events from the server:", error) 
   })
 }
+
+
 
 // useEffect(() => {
 //   fetchActions()
@@ -144,6 +162,7 @@ function fetchEvents() {
         <Route exact path="/actions/edit/:id" render={(props) => <EditAction {...props} updateAction={updateAction} action={getActionFromId(props.match.params.id)}/> }/>
         <Route exact path="/users/login" render={(props) => <Login {...props} loginUser={loginUser}/>} />
         <Route exact path="/users/register" component={Register}/>
+        <Route exact path="/nodes/join/:id" render={(props) => <Confirmation {...props} joinNodeId={props.match.params.id}/> } />
 
 
       </BrowserRouter>
