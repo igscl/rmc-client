@@ -16,8 +16,8 @@ import { LockClosedIcon } from '@heroicons/react/solid'
 
 // const Login = (props) => {
 //     const {handleLogin, history} = props
-const Login = ({history}) => {
-    
+const Login = ({history, redirectPath}) => {
+
 	const initialFormState = {
         username: "",
         password: ""
@@ -52,8 +52,8 @@ const Login = ({history}) => {
 				type: 'setAdminUser',
 				data: getAdminFromLocalStorage(),
 			});
-
-            history.push("/")            
+          history &&
+            history.push(redirectPath)            
 			}).catch((error) => {
 				console.log(`An error occurred authenticating: ${error}`)
 				setErrorMessage("Login failed. Please check your username and password");

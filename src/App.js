@@ -160,7 +160,7 @@ function fetchEvents() {
         <Route exact path="/actions/:id" render={(props) => <ActionB {...props} action={getActionFromId(props.match.params.id)} showControls deleteAction={deleteAction}/> } />
         <Route exact path="/actions/new" component={NewAction}/>
         <Route exact path="/actions/edit/:id" render={(props) => <EditAction {...props} updateAction={updateAction} action={getActionFromId(props.match.params.id)}/> }/>
-        <Route exact path="/users/login" render={(props) => <Login {...props} loginUser={loginUser}/>} />
+        <Route exact path="/users/login" render={(props) => <Login {...props} loginUser={loginUser} redirectPath={"/"}/>} />
         <Route exact path="/users/register" component={Register}/>
         <Route exact path="/nodes/join/:id" render={(props) => <Confirmation {...props} joinNodeId={props.match.params.id}/> } />
 

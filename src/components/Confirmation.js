@@ -1,24 +1,34 @@
 import React, { useEffect, useState } from "react";
 import { joinNode } from "../services/nodeServices";
+import { useGlobalState } from "../config/store";
+import Login from "./Login";
+import {withRouter} from 'react-router-dom'
 
-const Confirmation = (props) => {
+const Confirmation = ({joinNodeId}) => {
+    const {store} = useGlobalState();
+    const {loggedInUser} = store
 
-    const {joinNodeId} = props
     const [name, setName] = useState()
     useEffect(() => {
-        console.log("profile useEffect")
+        // console.log("profile useEffect")
+        loggedInUser &&
         joinNode(joinNodeId).then((response) => {
             // console.log("join node",response)
             setName(response.name)
         })
-    }, [joinNodeId])
+    }, [joinNodeId, loggedInUser])
 
     return(
         <div>
-            <h2>Joined {name} node</h2>
+            {loggedInUser ? (
+                <h2>Joined {name} node</h2>
+            ):(
+                <Login redirectPath={`/node/join/${joinNodeId}`}/>
+            )}
+            
         </div>
     )
 
 }
 
-export default Confirmation
+export default withRouter(Confirmation)

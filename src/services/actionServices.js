@@ -31,3 +31,9 @@ export async function addAction(newAction) {
     const response = await api.post("/actions", newAction)
     return response.data
 }
+
+//edit an action
+export async function editAction(action) {
+    const response = await api.put(`/actions/${action._id}`, action)
+    return response.data
+}
