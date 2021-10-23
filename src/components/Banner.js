@@ -1,14 +1,46 @@
-import React from "react";
+import React, {useEffect} from "react";
 import { SpeakerphoneIcon } from '@heroicons/react/outline'
 
 import { useGlobalState } from '../config/store'
-
+import { usersCounter} from "../services/authServices";
+import { nodesCounter } from "../services/nodeServices";
 
 export default function Banner() {
   
-    const {store} = useGlobalState()
-    const {usersCount, nodesCount} = store
+    const {store, dispatch} = useGlobalState()
+    const {loggedInUser, usersCount, nodesCount} = store
     console.log("banner count",usersCount.data)
+
+
+    useEffect(() => {
+      function fetchNumberOfUsers() {
+        usersCounter().then((countData) => {
+          dispatch({
+            type: 'usersCount',
+            data: countData
+          })
+        }).catch((error) => {
+          console.log("An error occurred fetching users from the server:", error)
+        })
+    
+      }
+    
+      function fetchNumberOfNodes() {
+        nodesCounter().then((countData) => {
+          console.log("countdata", countData)
+          dispatch({
+            type: 'nodesCount',
+            data: countData
+          })
+        }).catch((error) => {
+          console.log("An error occurred fetching nodes from the server:", error)
+        })
+    
+      }
+      loggedInUser && fetchNumberOfUsers()
+      loggedInUser && fetchNumberOfNodes()
+      
+    }, [loggedInUser, dispatch])
 
     return (
       <div className="bg-indigo-600">

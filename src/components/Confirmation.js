@@ -8,20 +8,22 @@ const Confirmation = ({joinNodeId}) => {
     const {store} = useGlobalState();
     const {loggedInUser} = store
 
-    const [name, setName] = useState()
+    const [name, setName] = useState("")
     useEffect(() => {
-        // console.log("profile useEffect")
-        loggedInUser &&
-        joinNode(joinNodeId).then((response) => {
-            // console.log("join node",response)
-            setName(response.name)
-        })
-    }, [joinNodeId, loggedInUser])
+        if(name === ""){
+            loggedInUser &&
+            joinNode(joinNodeId).then((response) => {
+                console.log("join node",response)
+                setName(response.name)
+            })
+        }
+            console.log("running again!")
+    }, [loggedInUser])
 
     return(
         <div>
             {loggedInUser ? (
-                <h2>Joined {name} node</h2>
+                <h2>Joined {} node</h2>
             ):(
                 <Login redirectPath={`/node/join/${joinNodeId}`}/>
             )}

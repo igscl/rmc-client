@@ -1,5 +1,17 @@
 function stateReducer(state, action) {
     switch(action.type) {
+        case "setLoggedInUser": {
+            return {
+                ...state,
+                loggedInUser: action.data
+            }
+        }
+        case "setIsLoading": {
+            return {
+                ...state,
+                isLoading: action.data
+            }
+        }
         case "setActions": {
             return {
                 ...state,
@@ -28,12 +40,6 @@ function stateReducer(state, action) {
             return {
                 ...state,
                 uploadData: action.data
-            }
-        }
-        case "setLoggedInUser": {
-            return {
-                ...state,
-                loggedInUser: action.data
             }
         }
         case 'setAdminUser': {

@@ -1,5 +1,13 @@
 import api from "../config/api"
 
+export function getIsLoading() {
+    return localStorage.getItem("isLoading")
+}
+export function setIsLoading(user) {
+    user ? localStorage.setItem("isLoading", user)
+         : localStorage.removeItem("isLoading")
+}
+
 export function getUserFromLocalStorage() {
     return localStorage.getItem("loggedInUser")
 }
@@ -70,7 +78,7 @@ export async function logoutUser() {
 	return api.get('/users/logout');
 }
 
-export async function usersCount() {
+export async function usersCounter() {
     return api.get('/users/count')
 }
 

@@ -15,11 +15,11 @@ import stateReducer from './config/stateReducer'
 import { StateContext } from './config/store'
 import Login from './components/Login'
 import Register from './components/Register'
-import { getUserFromLocalStorage, getAdminFromLocalStorage, getLeaderFromLocalStorage, usersCount } from './services/authServices'
+import { getUserFromLocalStorage, getAdminFromLocalStorage, getLeaderFromLocalStorage, getIsLoading } from './services/authServices'
 import { getAllActions } from './services/actionServices'
 import { getAllEvents } from './services/eventServices'
 import Confirmation from './components/Confirmation'
-import { nodesCount, getAllNodes } from './services/nodeServices'
+import { getAllNodes } from './services/nodeServices'
 import NewNode from './components/NewNode'
 import PrivateRoute from './components/PrivateRoute'
 
@@ -33,12 +33,12 @@ const App = () => {
     nodesCount: [],
     nodesData: [],
     leader: null,
-    adminUser: null
+    adminUser: null,
+    isLoading: true
   }
 
-  // const [actions, setActions] = useState([])
   const [store, dispatch] = useReducer(stateReducer, initialState)
-  const { actionsData, eventsData, loggedInUser, adminUser, leader} = store
+  const { actionsData, eventsData, loggedInUser, adminUser} = store
 
 
   useEffect(() => {
@@ -48,6 +48,10 @@ const App = () => {
       data: getUserFromLocalStorage(),
     });
     dispatch({
+      type: 'setIsLoading',
+      data: getIsLoading(),
+    });
+    dispatch({
       type: 'setAdminUser',
       data: getAdminFromLocalStorage(),
     })
@@ -55,47 +59,19 @@ const App = () => {
       type: 'setLeader',
       data: getLeaderFromLocalStorage(),
     })
-    console.log("loggedinuser", loggedInUser)
-    console.log("adminuser", adminUser)
-    console.log("leader!",leader)
-    // adminUser &&
-    //   dispatch({
-    //     type: "setActions",
-    //     data: actionData
-    //   })
+    // console.log("loggedinuser", loggedInUser)
+    // console.log("adminuser", adminUser)
+    // console.log("leader!",leader)
 
-    function fetchNumberOfUsers() {
-      usersCount().then((countData) => {
-        dispatch({
-          type: 'usersCount',
-          data: countData
-        })
-      }).catch((error) => {
-        console.log("An error occurred fetching users from the server:", error)
-      })
 
-    }
 
-    function fetchNumberOfNodes() {
-      nodesCount().then((countData) => {
-        console.log("countdata", countData)
-        dispatch({
-          type: 'nodesCount',
-          data: countData
-        })
-      }).catch((error) => {
-        console.log("An error occurred fetching nodes from the server:", error)
-      })
-
-    }
 
     loggedInUser && fetchActions()
     loggedInUser && fetchEvents()
     loggedInUser && fetchNodes()
-    loggedInUser && fetchNumberOfUsers()
-    loggedInUser && fetchNumberOfNodes()
 
-  }, [loggedInUser, adminUser, leader])
+
+  }, [loggedInUser, adminUser])
 
 
   function fetchActions() {
@@ -168,6 +144,7 @@ const App = () => {
       <StateContext.Provider value={{ store, dispatch }} >
         <BrowserRouter>
           <Nav loggedInUser={loggedInUser}/>
+          <Route exact path="/nodes/join/:id" component={(props) => <Confirmation {...props} joinNodeId={props.match.params.id} />} />
           <PrivateRoute exact path="/profile" component={Profile} />
           <PrivateRoute exact path="/" component={IndexPage} />
           <PrivateRoute exact path="/events" component={Events} />
@@ -180,7 +157,6 @@ const App = () => {
           <PrivateRoute exact path="/actions/edit/:id" component={(props) => <EditAction {...props} updateAction={updateAction} action={getActionFromId(props.match.params.id)} />} />
           <Route exact path="/users/login" component={Login} />
           <Route exact path="/users/register" component={Register} />
-          <PrivateRoute exact path="/nodes/join/:id" component={(props) => <Confirmation {...props} joinNodeId={props.match.params.id} />} />
 
 
         </BrowserRouter>

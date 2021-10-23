@@ -10,7 +10,7 @@ export async function getAllNodes() {
 
 export async function joinNode(token) {
     const response = await api.get(`/nodes/join?invitation=${token}`)
-    console.log("joined this node:",response.data)
+    // console.log("joined this node:",response.data)
     return response.data
 }
 
@@ -37,6 +37,6 @@ export async function viewMyNodeMember() {
     return response.data
 }
 
-export async function nodesCount() {
+export async function nodesCounter() {
     return api.get('/nodes/count')
 }

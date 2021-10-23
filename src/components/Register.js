@@ -1,6 +1,16 @@
 import React, {useState} from "react";
 import { useGlobalState } from "../config/store";
-import { getUserFromLocalStorage, getAdminFromLocalStorage, setUserInLocalStorage, registerUser, setAdminInLocalStorage, getLeaderFromLocalStorage, setLeaderInLocalStorage } from "../services/authServices";
+import {
+  getUserFromLocalStorage,
+  getAdminFromLocalStorage,
+  setUserInLocalStorage,
+  registerUser,
+  setAdminInLocalStorage,
+  getLeaderFromLocalStorage,
+  setLeaderInLocalStorage,
+  setIsLoading,
+  getIsLoading
+} from "../services/authServices";
 // import Container from 'react-bootstrap/Container'
 // import Row from 'react-bootstrap/Row'
 // import Col from 'react-bootstrap/Col'
@@ -38,6 +48,7 @@ const Register = ({history}) => {
         registerUser(userDetails)
         .then(response => {
             setUserInLocalStorage(response.username)
+            setIsLoading(false)
             setAdminInLocalStorage(response.is_admin)
             setLeaderInLocalStorage(response.can_be_leader)
             console.log("RESPONSE USER!",response)
@@ -45,6 +56,10 @@ const Register = ({history}) => {
                 type: "setLoggedInUser",
                 data: getUserFromLocalStorage()
             })
+            dispatch({
+              type: "setIsLoading",
+              data: getIsLoading()
+          })
             dispatch({
                 type: "setAdminUser",
                 data: getAdminFromLocalStorage()

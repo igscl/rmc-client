@@ -5,7 +5,10 @@ import { getUserFromLocalStorage,
     setAdminInLocalStorage,
     setUserInLocalStorage,
     getLeaderFromLocalStorage, 
-    setLeaderInLocalStorage} from '../services/authServices'
+    setLeaderInLocalStorage,
+    setIsLoading,
+    getIsLoading
+    } from '../services/authServices'
 import { loginUser } from '../services/authServices'
 // import Container from 'react-bootstrap/Container'
 // import Row from 'react-bootstrap/Row'
@@ -45,11 +48,16 @@ const Login = ({history, redirectPath}) => {
       setUserInLocalStorage(response.username)
       setAdminInLocalStorage(response.is_admin)
       setLeaderInLocalStorage(response.can_be_leader)
+      setIsLoading(false)
       console.log("ADMIN?", response.is_admin)
       console.log("FROM LOGIN USER", response)
       dispatch({
         type: "setLoggedInUser",
         data: getUserFromLocalStorage()
+      })
+      dispatch({
+        type: "setIsLoading",
+        data: getIsLoading()
       })
       dispatch({
         type: 'setAdminUser',
@@ -60,7 +68,7 @@ const Login = ({history, redirectPath}) => {
         data: getLeaderFromLocalStorage()
       });
       history &&
-        history.push("/")
+        history.push(redirectPath || "/")
     }).catch((error) => {
       console.log(`An error occurred authenticating: ${error}`)
       setErrorMessage("Login failed. Please check your username and password");
