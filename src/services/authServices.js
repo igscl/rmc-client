@@ -5,7 +5,7 @@ export function getIsLoading() {
 }
 export function setIsLoading(user) {
     user ? localStorage.setItem("isLoading", user)
-         : localStorage.removeItem("isLoading")
+        : localStorage.removeItem("isLoading")
 }
 
 export function getUserFromLocalStorage() {
@@ -14,7 +14,7 @@ export function getUserFromLocalStorage() {
 
 export function setUserInLocalStorage(user) {
     user ? localStorage.setItem("loggedInUser", user)
-         : localStorage.removeItem("loggedInUser")
+        : localStorage.removeItem("loggedInUser")
 }
 
 export function getAdminFromLocalStorage() {
@@ -24,7 +24,7 @@ export function getAdminFromLocalStorage() {
 export function setAdminInLocalStorage(admin) {
     console.log("setting admin", admin)
     admin ? localStorage.setItem("adminUser", admin)
-         : localStorage.removeItem("adminUser")
+        : localStorage.removeItem("adminUser")
 }
 
 export function getLeaderFromLocalStorage() {
@@ -34,14 +34,14 @@ export function getLeaderFromLocalStorage() {
 
 export function setLeaderInLocalStorage(leader) {
     leader ? localStorage.setItem("leader", leader)
-         : localStorage.removeItem("leader", leader)
+        : localStorage.removeItem("leader", leader)
 }
 
 export async function userAuthenticated() {
     // call to server to login user
     // return user info if successful and error if not
     const response = await api.get("/users/user")
-    console.log("got user back from server", response) 
+    console.log("got user back from server", response)
     return response.data
 }
 
@@ -49,7 +49,7 @@ export async function loginUser(userInfo) {
     // call to server to login user
     // return user info if successful and error if not
     const response = await api.post("/users/login", userInfo)
-    console.log("got user back from server", response) 
+    console.log("got user back from server", response)
     return response.data
 }
 
@@ -60,9 +60,9 @@ export async function registerUser(userInfo) {
         console.log("got user back from server", response)
         return response.data
     }
-    catch (error) { 
+    catch (error) {
         console.log("got error", error)
-        throw(error)
+        throw (error)
     }
 }
 
@@ -70,19 +70,19 @@ export async function editUser(userInfo) {
     // call to server to login user
     // return user info if successful and error if not
     const response = await api.put(`/users/user`, userInfo)
-    console.log("got user back from server", response) 
+    console.log("got user back from server", response)
     return response.data
 }
 
 export async function logoutUser() {
-	return api.get('/users/logout');
+    return api.get('/users/logout');
 }
 
 export async function usersCounter() {
     return api.get('/users/count')
 }
 
-export async function getUserId(id){
+export async function getUserId(id) {
     return api.get(`/users/${id}`)
 }
 

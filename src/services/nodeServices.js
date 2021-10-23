@@ -3,7 +3,7 @@ import api from "../config/api"
 // Returns all actions from the server
 export async function getAllNodes() {
     const response = await api.get("/nodes")
-    console.log("getAllNodes",response.data)
+    console.log("getAllNodes", response.data)
     return response.data
 }
 
@@ -21,7 +21,7 @@ export async function exitNode() {
 //add a node
 export async function addNode(newNode) {
     const response = await api.post("/nodes", newNode)
-    console.log("asdfasdfasdf",response.data)
+    console.log("asdfasdfasdf", response.data)
     return response.data
 }
 

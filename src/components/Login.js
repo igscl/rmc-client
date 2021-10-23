@@ -1,14 +1,15 @@
-import React, {useState} from 'react'
+import React, { useState } from 'react'
 import { useGlobalState } from '../config/store'
-import { getUserFromLocalStorage, 
-    getAdminFromLocalStorage, 
-    setAdminInLocalStorage,
-    setUserInLocalStorage,
-    getLeaderFromLocalStorage, 
-    setLeaderInLocalStorage,
-    setIsLoading,
-    getIsLoading
-    } from '../services/authServices'
+import {
+  getUserFromLocalStorage,
+  getAdminFromLocalStorage,
+  setAdminInLocalStorage,
+  setUserInLocalStorage,
+  getLeaderFromLocalStorage,
+  setLeaderInLocalStorage,
+  setIsLoading,
+  getIsLoading
+} from '../services/authServices'
 import { loginUser } from '../services/authServices'
 // import Container from 'react-bootstrap/Container'
 // import Row from 'react-bootstrap/Row'
@@ -21,25 +22,25 @@ import { LockClosedIcon } from '@heroicons/react/solid'
 
 // const Login = (props) => {
 //     const {handleLogin, history} = props
-const Login = ({history, redirectPath}) => {
+const Login = ({ history, redirectPath }) => {
 
-	const initialFormState = {
-        username: "",
-        password: ""
-    } 
+  const initialFormState = {
+    username: "",
+    password: ""
+  }
 
-    const [errorMessage, setErrorMessage] = useState(null);
-	const [userDetails,setUserDetails] = useState(initialFormState);
-    const {dispatch} = useGlobalState()
+  const [errorMessage, setErrorMessage] = useState(null);
+  const [userDetails, setUserDetails] = useState(initialFormState);
+  const { dispatch } = useGlobalState()
 
-	function handleChange(event) {
-        const name = event.target.name
-        const value = event.target.value
-        setUserDetails({
-            ...userDetails,
-            [name]: value
-        })
-    }
+  function handleChange(event) {
+    const name = event.target.name
+    const value = event.target.value
+    setUserDetails({
+      ...userDetails,
+      [name]: value
+    })
+  }
 
   function handleSubmit(event) {
     event.preventDefault()
@@ -75,11 +76,11 @@ const Login = ({history, redirectPath}) => {
 
     })
   }
-		
-  
-    return (
-        <>
-            {/*
+
+
+  return (
+    <>
+      {/*
         This example requires updating your template:
 
         ```
@@ -107,9 +108,9 @@ const Login = ({history, redirectPath}) => {
             <input type="hidden" name="remember" defaultValue="true" />
             <div className="rounded-md shadow-sm -space-y-px">
               <div>
-              {errorMessage && <p style={{color: 'red'}}>{errorMessage}</p>}
+                {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>}
                 <label htmlFor="email-address" className="sr-only">
-                Username
+                  Username
                 </label>
                 <input
                   id="username"
@@ -177,7 +178,7 @@ const Login = ({history, redirectPath}) => {
         </div>
       </div>
 
-        {/* <Container>
+      {/* <Container>
         <p></p>
         <Row className="justify-content-center">
             <Col className="col-md-6">
@@ -198,6 +199,6 @@ const Login = ({history, redirectPath}) => {
         </Row>
     </Container > */}
     </>
-    )
+  )
 }
 export default Login

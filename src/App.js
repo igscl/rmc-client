@@ -38,7 +38,7 @@ const App = () => {
   }
 
   const [store, dispatch] = useReducer(stateReducer, initialState)
-  const { actionsData, eventsData, loggedInUser, adminUser} = store
+  const { actionsData, eventsData, loggedInUser, adminUser } = store
 
 
   useEffect(() => {
@@ -143,7 +143,7 @@ const App = () => {
       <img src="http://localhost:3009/actions/upload/1794ea2b2715231d1c80c8fccf01e725" alt="hello" />} */}
       <StateContext.Provider value={{ store, dispatch }} >
         <BrowserRouter>
-          <Nav loggedInUser={loggedInUser}/>
+          <Nav loggedInUser={loggedInUser} />
           <Route exact path="/nodes/join/:id" component={(props) => <Confirmation {...props} joinNodeId={props.match.params.id} />} />
           <PrivateRoute exact path="/profile" component={Profile} />
           <PrivateRoute exact path="/" component={IndexPage} />

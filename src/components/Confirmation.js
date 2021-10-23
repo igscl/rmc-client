@@ -2,28 +2,29 @@ import React, { useEffect, useState } from "react";
 import { joinNode } from "../services/nodeServices";
 import { useGlobalState } from "../config/store";
 import Login from "./Login";
-import {withRouter} from 'react-router-dom'
+import { withRouter } from 'react-router-dom'
 
-const Confirmation = ({joinNodeId}) => {
-    const {store} = useGlobalState();
-    const {loggedInUser} = store
+const Confirmation = ({ joinNodeId }) => {
+    const { store } = useGlobalState();
+    const { loggedInUser } = store
 
     const [name, setName] = useState("")
+
     useEffect(() => {
         let isMounted = true
-        if(name === ""){
+        if (name === "") {
             loggedInUser &&
-            joinNode(joinNodeId).then((response) => {
-                if (isMounted){
-                console.log("join node",response)
-                setName(response.name)}
-            })
-            return () => {isMounted = false}
+                joinNode(joinNodeId).then((response) => {
+                    if (isMounted) {
+                        console.log("join node", response)
+                        setName(response.name)
+                    }
+                })
+            return () => { isMounted = false }
         }
-            console.log("running again!")
     }, [loggedInUser, joinNodeId, name])
 
-    return(
+    return (
         <div>
             {loggedInUser ? (
                 <div className="bg-white-50">
@@ -34,10 +35,10 @@ const Confirmation = ({joinNodeId}) => {
                     </div>
                 </div>
 
-            ):(
-                <Login redirectPath={`/node/join/${joinNodeId}`}/>
+            ) : (
+                <Login redirectPath={`/node/join/${joinNodeId}`} />
             )}
-            
+
         </div>
     )
 
