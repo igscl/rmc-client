@@ -1,7 +1,7 @@
 import React from 'react'
 import {Link} from 'react-router-dom'
 import { useGlobalState } from '../config/store'
-import { logoutUser, setAdminInLocalStorage, setUserInLocalStorage } from '../services/authServices'
+import { logoutUser, setAdminInLocalStorage, setLeaderInLocalStorage, setUserInLocalStorage } from '../services/authServices'
 import { Fragment } from 'react'
 import { Disclosure, Menu, Transition } from '@headlessui/react'
 import { BellIcon, MenuIcon, XIcon } from '@heroicons/react/outline'
@@ -23,6 +23,7 @@ const Nav = () => {
     function handleLogout() {
 		setUserInLocalStorage(null)
         setAdminInLocalStorage(false)
+        setLeaderInLocalStorage(null)
 		logoutUser()
 			.then((response) => {
 				console.log('Got back response on logout', response.status);
@@ -49,6 +50,10 @@ const Nav = () => {
 			type: 'setEvents',
 			data: [],
 		})
+    dispatch({
+			type: 'setLeader',
+			data: null,
+		})
 	}
     const navigation = [
         { name: 'Inicio', href: '/', current: false },
@@ -56,6 +61,7 @@ const Nav = () => {
         { name: 'Acciones', href: '/actions', current: false },
         { name: 'Eventos', href: '/events', current: false },
         { name: 'Agregar Accion', href: '/actions/new', current: false },
+        { name: 'Crear Nodo', href: '/nodes/new', current: false },
       ]
 
     const navigationRegister = [

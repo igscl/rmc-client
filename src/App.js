@@ -1,4 +1,4 @@
-import React, {useEffect, useReducer} from 'react'
+import React, { useEffect, useReducer } from 'react'
 import { BrowserRouter, Route } from 'react-router-dom'
 import Actions from './components/Actions'
 import Events from './components/Events'
@@ -15,11 +15,13 @@ import stateReducer from './config/stateReducer'
 import { StateContext } from './config/store'
 import Login from './components/Login'
 import Register from './components/Register'
-import {getUserFromLocalStorage, getAdminFromLocalStorage, usersCount} from './services/authServices'
+import { getUserFromLocalStorage, getAdminFromLocalStorage, getLeaderFromLocalStorage, usersCount } from './services/authServices'
 import { getAllActions } from './services/actionServices'
 import { getAllEvents } from './services/eventServices'
 import Confirmation from './components/Confirmation'
-import { nodesCount } from './services/nodeServices'
+import { nodesCount, getAllNodes } from './services/nodeServices'
+import NewNode from './components/NewNode'
+import PrivateRoute from './components/PrivateRoute'
 
 const App = () => {
 
@@ -28,26 +30,34 @@ const App = () => {
     eventsData: [],
     loggedInUser: null,
     usersCount: [],
-    nodesCount: []
-    // actions: []
+    nodesCount: [],
+    nodesData: [],
+    leader: null,
+    adminUser: null
   }
 
   // const [actions, setActions] = useState([])
-  const [store,dispatch] = useReducer(stateReducer,initialState)
-  const {actionsData, eventsData, loggedInUser, adminUser} = store
+  const [store, dispatch] = useReducer(stateReducer, initialState)
+  const { actionsData, eventsData, loggedInUser, adminUser, leader} = store
 
 
   useEffect(() => {
     console.log("app useEffect")
     dispatch({
-			type: 'setLoggedInUser',
-			data: getUserFromLocalStorage(),
-		});
-		dispatch({
-			type: 'setAdminUser',
-			data: getAdminFromLocalStorage(),
-		})
-    console.log("loggedinuser",loggedInUser)
+      type: 'setLoggedInUser',
+      data: getUserFromLocalStorage(),
+    });
+    dispatch({
+      type: 'setAdminUser',
+      data: getAdminFromLocalStorage(),
+    })
+    dispatch({
+      type: 'setLeader',
+      data: getLeaderFromLocalStorage(),
+    })
+    console.log("loggedinuser", loggedInUser)
+    console.log("adminuser", adminUser)
+    console.log("leader!",leader)
     // adminUser &&
     //   dispatch({
     //     type: "setActions",
@@ -55,76 +65,82 @@ const App = () => {
     //   })
 
     function fetchNumberOfUsers() {
-      usersCount().then((countData) =>{
+      usersCount().then((countData) => {
         dispatch({
           type: 'usersCount',
           data: countData
         })
       }).catch((error) => {
-        console.log("An error occurred fetching users from the server:", error) 
+        console.log("An error occurred fetching users from the server:", error)
       })
-    
+
     }
 
     function fetchNumberOfNodes() {
-      nodesCount().then((countData) =>{
+      nodesCount().then((countData) => {
         console.log("countdata", countData)
         dispatch({
           type: 'nodesCount',
           data: countData
         })
       }).catch((error) => {
-        console.log("An error occurred fetching nodes from the server:", error) 
+        console.log("An error occurred fetching nodes from the server:", error)
       })
-    
+
     }
 
     loggedInUser && fetchActions()
     loggedInUser && fetchEvents()
+    loggedInUser && fetchNodes()
     loggedInUser && fetchNumberOfUsers()
     loggedInUser && fetchNumberOfNodes()
 
-},[loggedInUser, adminUser])
+  }, [loggedInUser, adminUser, leader])
 
 
-function fetchActions() {
-  getAllActions().then((actionData) => {
-    dispatch({
-      type: "setActions",
-      data: actionData
+  function fetchActions() {
+    getAllActions().then((actionData) => {
+      dispatch({
+        type: "setActions",
+        data: actionData
+      })
+    }).catch((error) => {
+      console.log("An error occurred fetching actions from the server:", error)
     })
-  }).catch((error) => {
-    console.log("An error occurred fetching actions from the server:", error) 
-  })
-}
+  }
 
-function fetchEvents() {
-  getAllEvents().then((eventData) => {
-    dispatch({
-      type: "setEvents",
-      data: eventData
+  function fetchEvents() {
+    getAllEvents().then((eventData) => {
+      dispatch({
+        type: "setEvents",
+        data: eventData
+      })
+    }).catch((error) => {
+      console.log("An error occurred fetching events from the server:", error)
     })
-  }).catch((error) => {
-    console.log("An error occurred fetching events from the server:", error) 
-  })
-}
+  }
 
+  function fetchNodes() {
+    getAllNodes().then((nodesData) => {
+      dispatch({
+        type: "setNodes",
+        data: nodesData
+      })
+    }).catch((error) => {
+      console.log("An error occurred fetching events from the server:", error)
+    })
+  }
 
-
-// useEffect(() => {
-//   fetchActions()
-//   fetchEvents()
-// },[loggedInUser])
 
   // Returns a single post based on the id provided
   function getActionFromId(id) {
-    console.log("getActionFromId",actionsData)
-  return actionsData.find((action) =>  action._id === id)
+    console.log("getActionFromId", actionsData)
+    return actionsData.find((action) => action._id === id)
   }
 
   function getEventFromId(id) {
-    console.log("getEventFromId",eventsData)
-  return eventsData.find((event) =>  event._id === id)
+    console.log("getEventFromId", eventsData)
+    return eventsData.find((event) => event._id === id)
   }
 
   function deleteAction(id) {
@@ -143,45 +159,31 @@ function fetchEvents() {
       data: [...otherActions, updatedAction]
     })
   }
-  
-    // Login user
-    function loginUser(user) {
-      dispatch({
-        type: "setLoggedInUser",
-        data: user.username
-      })
-    }
-  
-    // Logout user
-    function logoutUser() {
-      dispatch({
-        type: "setLoggedInUser",
-        data: null
-      })
-    }
+
 
   return (
     <div >
       {/* {loggedInUser &&
       <img src="http://localhost:3009/actions/upload/1794ea2b2715231d1c80c8fccf01e725" alt="hello" />} */}
-      <StateContext.Provider value ={{store, dispatch}} >
-      <BrowserRouter>
-      <Nav loggedInUser={loggedInUser} logoutUser={logoutUser} />
-        <Route exact path="/profile" component={Profile} />
-        <Route exact path="/" component={IndexPage} />
-        <Route exact path="/events" component={Events} />        
-        <Route exact path="/events/:id" render={(props) => <Event {...props} event={getEventFromId(props.match.params.id)} showControls/> } />
-        <Route exact path="/actions" component={Actions} />
-        {/* <Route exact path="/actions/:id" render={(props) => <Action {...props} action={getActionFromId(props.match.params.id)} showControls deleteAction={deleteAction}/> } /> */}
-        <Route exact path="/actions/:id" render={(props) => <ActionB {...props} action={getActionFromId(props.match.params.id)} showControls deleteAction={deleteAction}/> } />
-        <Route exact path="/actions/new" component={NewAction}/>
-        <Route exact path="/actions/edit/:id" render={(props) => <EditAction {...props} updateAction={updateAction} action={getActionFromId(props.match.params.id)}/> }/>
-        <Route exact path="/users/login" render={(props) => <Login {...props} loginUser={loginUser} redirectPath={"/"}/>} />
-        <Route exact path="/users/register" component={Register}/>
-        <Route exact path="/nodes/join/:id" render={(props) => <Confirmation {...props} joinNodeId={props.match.params.id}/> } />
+      <StateContext.Provider value={{ store, dispatch }} >
+        <BrowserRouter>
+          <Nav loggedInUser={loggedInUser}/>
+          <PrivateRoute exact path="/profile" component={Profile} />
+          <PrivateRoute exact path="/" component={IndexPage} />
+          <PrivateRoute exact path="/events" component={Events} />
+          <PrivateRoute exact path="/events/:id" component={(props) => <Event {...props} event={getEventFromId(props.match.params.id)} showControls />} />
+          <PrivateRoute exact path="/actions" component={Actions} />
+          {/* <Route exact path="/actions/:id" component={(props) => <Action {...props} action={getActionFromId(props.match.params.id)} showControls deleteAction={deleteAction}/> } /> */}
+          <PrivateRoute exact path="/actions/:id" component={(props) => <ActionB {...props} action={getActionFromId(props.match.params.id)} showControls deleteAction={deleteAction} />} />
+          <PrivateRoute exact path="/actions/new" component={NewAction} />
+          <PrivateRoute exact path="/nodes/new" component={NewNode} />
+          <PrivateRoute exact path="/actions/edit/:id" component={(props) => <EditAction {...props} updateAction={updateAction} action={getActionFromId(props.match.params.id)} />} />
+          <Route exact path="/users/login" component={Login} />
+          <Route exact path="/users/register" component={Register} />
+          <PrivateRoute exact path="/nodes/join/:id" component={(props) => <Confirmation {...props} joinNodeId={props.match.params.id} />} />
 
 
-      </BrowserRouter>
+        </BrowserRouter>
       </StateContext.Provider>
     </div>
   )

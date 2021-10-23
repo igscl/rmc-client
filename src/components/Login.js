@@ -3,7 +3,9 @@ import { useGlobalState } from '../config/store'
 import { getUserFromLocalStorage, 
     getAdminFromLocalStorage, 
     setAdminInLocalStorage,
-    setUserInLocalStorage } from '../services/authServices'
+    setUserInLocalStorage,
+    getLeaderFromLocalStorage, 
+    setLeaderInLocalStorage} from '../services/authServices'
 import { loginUser } from '../services/authServices'
 // import Container from 'react-bootstrap/Container'
 // import Row from 'react-bootstrap/Row'
@@ -36,30 +38,35 @@ const Login = ({history, redirectPath}) => {
         })
     }
 
-    function handleSubmit(event) {
-        event.preventDefault()
-        // Attempt login on server
-        loginUser(userDetails).then((response) => {
-            setUserInLocalStorage(response.username)
-            setAdminInLocalStorage(response.is_admin)
-            console.log("ADMIN?",response.is_admin)
-            console.log("FROM LOGIN USER",response)
-            dispatch({
-                type: "setLoggedInUser",
-                data: getUserFromLocalStorage()
-            })
-			dispatch({
-				type: 'setAdminUser',
-				data: getAdminFromLocalStorage(),
-			});
-          history &&
-            history.push(redirectPath)            
-			}).catch((error) => {
-				console.log(`An error occurred authenticating: ${error}`)
-				setErrorMessage("Login failed. Please check your username and password");
+  function handleSubmit(event) {
+    event.preventDefault()
+    // Attempt login on server
+    loginUser(userDetails).then((response) => {
+      setUserInLocalStorage(response.username)
+      setAdminInLocalStorage(response.is_admin)
+      setLeaderInLocalStorage(response.can_be_leader)
+      console.log("ADMIN?", response.is_admin)
+      console.log("FROM LOGIN USER", response)
+      dispatch({
+        type: "setLoggedInUser",
+        data: getUserFromLocalStorage()
+      })
+      dispatch({
+        type: 'setAdminUser',
+        data: getAdminFromLocalStorage()
+      });
+      dispatch({
+        type: 'setLeader',
+        data: getLeaderFromLocalStorage()
+      });
+      history &&
+        history.push("/")
+    }).catch((error) => {
+      console.log(`An error occurred authenticating: ${error}`)
+      setErrorMessage("Login failed. Please check your username and password");
 
-			})		
-    }
+    })
+  }
 		
   
     return (

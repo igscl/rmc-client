@@ -14,8 +14,19 @@ export function getAdminFromLocalStorage() {
 }
 
 export function setAdminInLocalStorage(admin) {
+    console.log("setting admin", admin)
     admin ? localStorage.setItem("adminUser", admin)
          : localStorage.removeItem("adminUser")
+}
+
+export function getLeaderFromLocalStorage() {
+    console.log("executing function", localStorage.getItem("leader"))
+    return localStorage.getItem("leader")
+}
+
+export function setLeaderInLocalStorage(leader) {
+    leader ? localStorage.setItem("leader", leader)
+         : localStorage.removeItem("leader", leader)
 }
 
 export async function userAuthenticated() {
@@ -45,6 +56,14 @@ export async function registerUser(userInfo) {
         console.log("got error", error)
         throw(error)
     }
+}
+
+export async function editUser(userInfo) {
+    // call to server to login user
+    // return user info if successful and error if not
+    const response = await api.put(`/users/user`, userInfo)
+    console.log("got user back from server", response) 
+    return response.data
 }
 
 export async function logoutUser() {

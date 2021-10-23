@@ -6,10 +6,22 @@ function stateReducer(state, action) {
                 actionsData: action.data
             }
         }
+        case "setNodes": {
+            return {
+                ...state,
+                nodesData: action.data
+            }
+        }
         case "addAction": {
             return {
                 ...state,
                 actionsData: action.data
+            }
+        }
+        case "addNode": {
+            return {
+                ...state,
+                nodesData: action.data
             }
         }
         case "setUpload": {
@@ -28,6 +40,12 @@ function stateReducer(state, action) {
 			return {
 				...state,
 				adminUser: action.data
+			}
+        }
+        case 'setLeader': {
+			return {
+				...state,
+				leader: action.data
 			}
         }
         case 'setEvents': {

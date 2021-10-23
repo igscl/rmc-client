@@ -5,9 +5,10 @@ import { useGlobalState } from '../config/store'
 
 
 export default function Banner() {
+  
     const {store} = useGlobalState()
     const {usersCount, nodesCount} = store
-    console.log(nodesCount.data)
+    console.log("banner count",usersCount.data)
 
     return (
       <div className="bg-indigo-600">
@@ -18,7 +19,7 @@ export default function Banner() {
                 <SpeakerphoneIcon className="h-6 w-6 text-white" aria-hidden="true" />
               </span>
               <p className="ml-3 font-medium text-white truncate">
-                <span className="md:hidden">Somos {usersCount.data} corazones en {nodesCount.data} nodos en 5 continentes</span>
+                <span className="md:hidden">Somos {usersCount.data} corazones - en {nodesCount.data} nodos - en 5 continentes</span>
                 <span className="hidden md:inline">Somos {usersCount.data} corazones - en {nodesCount.data} nodos - en 5 continentes</span>
               </p>
             </div>

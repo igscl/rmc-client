@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 import { useGlobalState } from "../config/store";
-import { getUserFromLocalStorage, getAdminFromLocalStorage, setUserInLocalStorage, registerUser, setAdminInLocalStorage } from "../services/authServices";
+import { getUserFromLocalStorage, getAdminFromLocalStorage, setUserInLocalStorage, registerUser, setAdminInLocalStorage, getLeaderFromLocalStorage, setLeaderInLocalStorage } from "../services/authServices";
 // import Container from 'react-bootstrap/Container'
 // import Row from 'react-bootstrap/Row'
 // import Col from 'react-bootstrap/Col'
@@ -39,15 +39,20 @@ const Register = ({history}) => {
         .then(response => {
             setUserInLocalStorage(response.username)
             setAdminInLocalStorage(response.is_admin)
+            setLeaderInLocalStorage(response.can_be_leader)
             console.log("RESPONSE USER!",response)
             dispatch({
                 type: "setLoggedInUser",
                 data: getUserFromLocalStorage()
             })
             dispatch({
-                type: "setLoggedInUserIsAdmin",
+                type: "setAdminUser",
                 data: getAdminFromLocalStorage()
             })
+            dispatch({
+              type: "setLeader",
+              data: getLeaderFromLocalStorage()
+          })
             history.push("/profile")
         })
         .catch(error => {
