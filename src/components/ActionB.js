@@ -131,7 +131,7 @@ const ActionB = ({action, showControls, history, linker}) => {
                   </div>
                   
                   <div className="ml-4 flex-shrink-0" >
-                    <a href={`https://red-mundial-rmc.herokuapp.com/actions/upload/${item[1]}`} target="_blank" rel="noreferrer" download className="font-medium text-indigo-600 hover:text-indigo-500">
+                    <a href={`https://server.redmundialcorazones.org/actions/upload/${item[1]}`} target="_blank" rel="noreferrer" download className="font-medium text-indigo-600 hover:text-indigo-500">
                       Descargar
                     </a>
                   </div>
