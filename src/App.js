@@ -23,6 +23,7 @@ import { getAllNodes } from './services/nodeServices'
 import NewNode from './components/NewNode'
 import PrivateRoute from './components/PrivateRoute'
 import NewEvent from './components/NewEvent'
+import EmailValidation from './components/EmailValidation'
 
 const App = () => {
 
@@ -43,7 +44,7 @@ const App = () => {
 
 
   require('dotenv').config()
-  
+
   useEffect(() => {
     console.log("app useEffect")
     dispatch({
@@ -148,6 +149,7 @@ const App = () => {
         <BrowserRouter>
           <Nav loggedInUser={loggedInUser} />
           <Route exact path="/nodes/join/:id" component={(props) => <Confirmation {...props} joinNodeId={props.match.params.id} />} />
+          <PrivateRoute exact path="/email/verify/:id" component={(props) => <EmailValidation {...props} token={props.match.params.id} />}/>
           <PrivateRoute exact path="/profile" component={Profile} />
           <PrivateRoute exact path="/" component={IndexPage} />
           <PrivateRoute exact path="/events" component={Events} />

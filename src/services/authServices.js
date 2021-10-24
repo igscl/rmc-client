@@ -86,6 +86,13 @@ export async function getUserId(id) {
     return api.get(`/users/${id}`)
 }
 
+export async function validateUser(token) {
+    const response = await api.get(`/users/validate?token=${token}`)
+    console.log("validate token:",response.data)
+    return response.data
+}
+
+
 // // Get loggedInUser from localStorage
 // export function getLoggedInUser() {
 // 	return localStorage.getItem('loggedInUser');
