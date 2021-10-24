@@ -42,6 +42,8 @@ const App = () => {
   const { actionsData, eventsData, loggedInUser, adminUser } = store
 
 
+  require('dotenv').config()
+  
   useEffect(() => {
     console.log("app useEffect")
     dispatch({

@@ -2,7 +2,6 @@ import React from "react"
 import {Link} from 'react-router-dom'
 import {removeAction} from '../services/actionServices'
 import { useGlobalState } from "../config/store"
-import moment from 'moment'
 import { PaperClipIcon } from '@heroicons/react/solid'
 
 const ActionB = ({action, showControls, history, linker}) => {
@@ -37,7 +36,7 @@ const ActionB = ({action, showControls, history, linker}) => {
         history.push(`/actions/edit/${action._id}`)
     }
 
-    const {title, create_date, actions, action_duration, files} = action
+    const {title, actions, action_duration, files} = action
 
     return (
         <>
