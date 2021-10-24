@@ -21,7 +21,7 @@ export default function NodeLeader({node}) {
                 {node.members.map((user, i) => (
                     <div key={user.username} className="border-t border-gray-200 pt-4">
                         <dt key={user.username} className="font-medium text-gray-900">{user.username}</dt>
-                        <dd key={user._id} className="mt-2 text-sm text-gray-500">{user._id}</dd>
+                        <dd key={user._id} className="mt-2 text-sm text-gray-500">Descripción</dd>
                     </div>
                 ))}
             </dl>

@@ -49,7 +49,7 @@ const NewNode = ({history}) => {
 
 
         addNode(newNode).then((newNode) => {
-          setLink(newNode.invitation_token)
+          setLink(`https://redmundialcorazones.org/nodes/join/${newNode.invitation_token}`)
           setLeaderInLocalStorage(false)
           console.log("leader after",leader)
           editUser(userData)
