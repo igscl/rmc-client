@@ -66,7 +66,7 @@ const Action = ({action, showControls, history}) => {
                 <ul>
                 {files.map((item,i) => 
                 <li key={`${item}`}>
-                    <a href={`https://redmundialcorazones.org/actions/upload/${item}`} target="_blank" rel="noreferrer" download> 
+                    <a href={`https://red-mundial-rmc.herokuapp.com/actions/upload/${item}`} target="_blank" rel="noreferrer" download> 
                     Archivo adjunto {i+1}
                     </a>
                     </li>)}
