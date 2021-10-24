@@ -11,17 +11,10 @@ import {
   getIsLoading
 } from '../services/authServices'
 import { loginUser } from '../services/authServices'
-// import Container from 'react-bootstrap/Container'
-// import Row from 'react-bootstrap/Row'
-// import Col from 'react-bootstrap/Col'
-// import Form from 'react-bootstrap/Form'
-// import Button from 'react-bootstrap/Button'
 import { LockClosedIcon } from '@heroicons/react/solid'
 
 
 
-// const Login = (props) => {
-//     const {handleLogin, history} = props
 const Login = ({ history, redirectPath }) => {
 
   const initialFormState = {
@@ -96,7 +89,7 @@ const Login = ({ history, redirectPath }) => {
               src="https://tailwindui.com/img/logos/workflow-mark-indigo-600.svg"
               alt="Workflow"
             />
-            <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">Sign in to your account</h2>
+            <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">Ingresa a tu cuenta</h2>
             <p className="mt-2 text-center text-sm text-gray-600">
               Or{' '}
               <a href="/users/register" className="font-medium text-indigo-600 hover:text-indigo-500">
@@ -110,7 +103,7 @@ const Login = ({ history, redirectPath }) => {
               <div>
                 {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>}
                 <label htmlFor="email-address" className="sr-only">
-                  Username
+                  Nombre de usuario
                 </label>
                 <input
                   id="username"
@@ -178,26 +171,6 @@ const Login = ({ history, redirectPath }) => {
         </div>
       </div>
 
-      {/* <Container>
-        <p></p>
-        <Row className="justify-content-center">
-            <Col className="col-md-6">
-                <Form data-cy="login-form" onSubmit={handleSubmit}>
-                    <h2 className="center">Login</h2>
-                    {errorMessage && <p style={{color: 'red'}}>{errorMessage}</p>}
-                    <Form.Group>
-                        <Form.Label>Username</Form.Label>
-                        <Form.Control data-cy="username" required type="text" value={userDetails.username} name="username" placeholder="Enter a username" onChange={handleChange} />
-                    </Form.Group>
-                    <Form.Group>
-                        <Form.Label>Password</Form.Label>
-                        <Form.Control data-cy="password" required type="password" value={userDetails.password}  name="password" placeholder="Enter a password" onChange={handleChange}/>
-                    </Form.Group>
-                    <Button data-cy="login-button" type="submit" value="Login" className="btn btn-dark">Login</Button>
-                </Form>
-            </Col>
-        </Row>
-    </Container > */}
     </>
   )
 }

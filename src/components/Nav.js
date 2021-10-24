@@ -60,7 +60,7 @@ const Nav = () => {
         { name: 'Perfil', href: '/profile', current: false },
         { name: 'Acciones', href: '/actions', current: false },
         { name: 'Eventos', href: '/events', current: false },
-        { name: 'Agregar Accion', href: '/actions/new', current: false },
+        { name: 'Agregar Acción', href: '/actions/new', current: false },
         { name: 'Crear Nodo', href: '/nodes/new', current: false },
       ]
 

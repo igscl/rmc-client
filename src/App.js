@@ -22,6 +22,7 @@ import Confirmation from './components/Confirmation'
 import { getAllNodes } from './services/nodeServices'
 import NewNode from './components/NewNode'
 import PrivateRoute from './components/PrivateRoute'
+import NewEvent from './components/NewEvent'
 
 const App = () => {
 
@@ -148,6 +149,7 @@ const App = () => {
           <PrivateRoute exact path="/profile" component={Profile} />
           <PrivateRoute exact path="/" component={IndexPage} />
           <PrivateRoute exact path="/events" component={Events} />
+          <PrivateRoute exact path="/events/new" component={NewEvent} />
           <PrivateRoute exact path="/events/:id" component={(props) => <Event {...props} event={getEventFromId(props.match.params.id)} showControls />} />
           <PrivateRoute exact path="/actions" component={Actions} />
           {/* <Route exact path="/actions/:id" component={(props) => <Action {...props} action={getActionFromId(props.match.params.id)} showControls deleteAction={deleteAction}/> } /> */}

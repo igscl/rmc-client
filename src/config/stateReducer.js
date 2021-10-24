@@ -60,6 +60,12 @@ function stateReducer(state, action) {
 				eventsData: action.data
 			}
         }
+        case 'addEvent': {
+			return {
+				...state,
+				eventsData: action.data
+			}
+        }
         case 'usersCount': {
 			return {
 				...state,

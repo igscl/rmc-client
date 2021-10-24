@@ -10,7 +10,7 @@ const Actions = () => {
         <>
         <div>
             {/* <h1>Acciones semanales:</h1> */}
-            {actionsData.sort((a,b) => moment(b.create_date).format('X')-moment(a.create_date).format('X')).map((action) => <ActionB key={action._id} action={action} />)}
+            {actionsData.sort((a,b) => moment(b.create_date).format('X')-moment(a.create_date).format('X')).map((action) => <ActionB key={action._id} action={action} linker/>)}
         </div>
         </>
     )

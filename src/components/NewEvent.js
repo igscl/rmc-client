@@ -2,23 +2,22 @@ import React from 'react'
 import { useState } from 'react'
 import {withRouter} from 'react-router-dom'
 import { useGlobalState } from '../config/store'
-import { addNode } from '../services/nodeServices'
-import { setLeaderInLocalStorage, editUser, getLeaderFromLocalStorage } from '../services/authServices'
+import { addEvent } from '../services/eventServices'
 
-const NewNode = ({history}) => {
+const NewEvent = ({history}) => {
     const {store,dispatch} = useGlobalState()
-    const {nodesData, leader} = store
+    const {eventsData} = store
 
     const initialFormState = {
         name: "",
-    }
-    
-    const userData = {
-      can_be_leader: false
+        description: "",
+        date: "",
+        url: ""
     }
 
     // const [errorMessage, setErrorMessage] = useState(null)
     const [formState,setFormState] = useState(initialFormState)
+    const [click, setClick] = useState(false)
 
     function handleChange(event) {
         const name = event.target.name
@@ -29,62 +28,43 @@ const NewNode = ({history}) => {
         })
     }
 
-    const [click, setClick] = useState(false)
-    const [link, setLink] = useState("")
-    const [message, setMessage] = useState("")
 
     async function handleSubmit(event) {
         event.preventDefault()
         setClick(true)
-        console.log("BEFORE",click)
-        const newNode = {
+        const newEvent = {
             name: formState.name,
-
+            description: formState.name,
+            url: formState.url,
+            date: formState.date
         }
 
-        console.log("NA",newNode)
-        getLeaderFromLocalStorage()
-        console.log("leader before",leader)
-      if (leader) {
-
-
-        addNode(newNode).then((newNode) => {
-          setLink(newNode.invitation_token)
-          setLeaderInLocalStorage(false)
-          console.log("leader after",leader)
-          editUser(userData)
-          const otherNodes = nodesData.filter((node) => node._id !== newNode._id)
+        addEvent(newEvent).then((newEvent) => {
+          const otherEvents = eventsData.filter((event) => event._id !== newEvent._id)
           dispatch({
-            type: "addNode",
-            data: [newNode, ...otherNodes]
+            type: "addEvent",
+            data: [newEvent, ...otherEvents]
           })
-          dispatch({
-            type: "setLeader",
-            data: getLeaderFromLocalStorage()
-          })
-          // history.push(`/nodes/${newNode._id}`)
-        })
-      } else {
-        setMessage("Ya tienes un Nodo líder")
-      }
-    }
+
+          history.push(`/events/${newEvent._id}`)
+        })}
+    
 
 
 
     return (
         <>
-        <>
       <div>
         <div className="md:grid md:grid-cols-3 md:gap-6">
           <div className="mt-5 md:mt-0 md:col-span-2">
-            <form id="newNodeForm2" onSubmit={handleSubmit}>
+            <form id="newEventForm2" onSubmit={handleSubmit}>
               <div className="shadow sm:rounded-md sm:overflow-hidden">
                 <div className="px-4 py-5 bg-white space-y-6 sm:p-6">
                   
 
                   <div className="col-span-6 sm:col-span-3">
                       <label htmlFor="Title" className="block text-sm font-medium text-gray-700">
-                        Nombre de tu nuevo Nodo
+                        Nombre de tu Evento
                       </label>
                       <input
                         required
@@ -96,54 +76,53 @@ const NewNode = ({history}) => {
                         className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
                       />
                     </div>
+                    <div className="col-span-6 sm:col-span-3">
+                      <label htmlFor="Title" className="block text-sm font-medium text-gray-700">
+                        Breve descripción:
+                      </label>
+                      <input
+                        required
+                        onChange={handleChange}
+                        type="text"
+                        name="name"
+                        id="name"
+                        autoComplete="title"
+                        className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
+                      />
+                    </div>
+                    <div className="col-span-6 sm:col-span-3">
+                      <label htmlFor="Date" className="block text-sm font-medium text-gray-700">
+                        Fecha:
+                      </label>
+                      <input
+                        required
+                        onChange={handleChange}
+                        type="text"
+                        name="date"
+                        id="date"
+                        autoComplete="date"
+                        className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
+                      />
+                    </div>
                     <div className="grid grid-cols-3 gap-6">
                     <div className="col-span-3 sm:col-span-2">
                       <label htmlFor="company-website" className="block text-sm font-medium text-gray-700">
-                        Copia esta invitación y compártela con los miembros de tu nuevo nodo. <br/>
+                        Link invitación reunión (reunión de zoom, sólo el link. Ejemplo: https://zoom.us/ABCDE): <br/>
                       </label>
                       <div className="mt-1 flex rounded-md shadow-sm">
-                        <span className="inline-flex items-center px-3 rounded-l-md border border-r-0 border-gray-300 bg-gray-50 text-gray-500 text-sm">
-                          Link invitación:
-                        </span>
+                        {/* <span className="inline-flex items-center px-3 rounded-l-md border border-r-0 border-gray-300 bg-gray-50 text-gray-500 text-sm">
+                          Link invitación reunión (reunión de zoom, sólo el link. Ejemplo: https://zoom.us/ABCDE):
+                        </span> */}
                         <input
                           type="text"
                           onChange={handleChange}
-                          name="invitation-token"
-                          id="invitation-token"
+                          name="url"
+                          id="url"
                           className="focus:ring-indigo-500 focus:border-indigo-500 flex-1 block w-full rounded-none rounded-r-md sm:text-sm border-gray-300"
-                          
-                          
-                          defaultValue={link}
-                          readOnly
                         />
                       </div>
-                     {leader ? (<>
-
-                     </>):(<>
-                      <label htmlFor="company-website" className="block text-sm font-medium text-gray-700">
-                      {message}
-                      </label>
-                     </>)}
                     </div>
                   </div>
-                  {/* <div>
-                    <label htmlFor="description" className="block text-sm font-medium text-gray-700">
-                      Descripción
-                    </label>
-                    <div className="mt-1">
-                      <textarea
-                        id="description"
-                        name="description"
-                        rows={3}
-                        className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 mt-1 block w-full sm:text-sm border border-gray-300 rounded-md"
-                        placeholder=""
-                        onChange={handleChange}
-                      />
-                    </div>
-                    <p className="mt-2 text-sm text-gray-500">
-                      Breve descripción del nodo.
-                    </p>
-                  </div> */}
 
 
                 </div>
@@ -168,9 +147,9 @@ const NewNode = ({history}) => {
         </div>
       </div>
     </>
-    </>
+
 
     )
 }
 
-export default withRouter(NewNode)
+export default withRouter(NewEvent)

@@ -6,3 +6,9 @@ export async function getAllEvents() {
     console.log("getAllEvents",response.data)
     return response.data
 }
+
+export async function addEvent(newEvent) {
+    const response = await api.post("/events", newEvent)
+    console.log("This is the new Event", response.data)
+    return response.data
+}

@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import { useGlobalState } from "../config/store";
 import {
   getUserFromLocalStorage,
@@ -18,68 +18,68 @@ import {
 // import Button from 'react-bootstrap/Button'
 import { LockClosedIcon } from '@heroicons/react/solid'
 
-const Register = ({history}) => {
-    const {dispatch} = useGlobalState()
+const Register = ({ history }) => {
+  const { dispatch } = useGlobalState()
 
-      //state for controlled form
-    const initialFormState = {
-        username: "",
-        email: "",
-        phoneNumber: "+61",
-        password: ""
-    } 
+  //state for controlled form
+  const initialFormState = {
+    username: "",
+    email: "",
+    phoneNumber: "+61",
+    password: ""
+  }
 
-    const [userDetails,setUserDetails] = useState(initialFormState)
-    const [errorMessage, setErrorMessage] = useState(null)
-    
+  const [userDetails, setUserDetails] = useState(initialFormState)
+  const [errorMessage, setErrorMessage] = useState(null)
 
-    //change handler
-    function handleChange(event) {
-        const name = event.target.name
-        const value = event.target.value
-        setUserDetails({
-            ...userDetails,
-            [name]: value
+
+  //change handler
+  function handleChange(event) {
+    const name = event.target.name
+    const value = event.target.value
+    setUserDetails({
+      ...userDetails,
+      [name]: value
+    })
+  }
+  //submit handler
+  function handleSubmit(event) {
+    event.preventDefault()
+    registerUser(userDetails)
+      .then(response => {
+        setUserInLocalStorage(response.username)
+        setIsLoading(false)
+        setAdminInLocalStorage(response.is_admin)
+        setLeaderInLocalStorage(response.can_be_leader)
+        console.log("RESPONSE USER!", response)
+        dispatch({
+          type: "setLoggedInUser",
+          data: getUserFromLocalStorage()
         })
-    }
-    //submit handler
-    function handleSubmit(event) {
-        event.preventDefault()
-        registerUser(userDetails)
-        .then(response => {
-            setUserInLocalStorage(response.username)
-            setIsLoading(false)
-            setAdminInLocalStorage(response.is_admin)
-            setLeaderInLocalStorage(response.can_be_leader)
-            console.log("RESPONSE USER!",response)
-            dispatch({
-                type: "setLoggedInUser",
-                data: getUserFromLocalStorage()
-            })
-            dispatch({
-              type: "setIsLoading",
-              data: getIsLoading()
-          })
-            dispatch({
-                type: "setAdminUser",
-                data: getAdminFromLocalStorage()
-            })
-            dispatch({
-              type: "setLeader",
-              data: getLeaderFromLocalStorage()
-          })
-            history.push("/profile")
+        dispatch({
+          type: "setIsLoading",
+          data: getIsLoading()
         })
-        .catch(error => {
-            setErrorMessage("Something went wrong, try changing your username");
+        dispatch({
+          type: "setAdminUser",
+          data: getAdminFromLocalStorage()
         })
-    }
+        dispatch({
+          type: "setLeader",
+          data: getLeaderFromLocalStorage()
+        })
+        history.push("/")
+      })
+      .catch(error => {
+        setErrorMessage("Something went wrong, try changing your username");
+      })
+  }
 
-    
-    return (
-        
+
+  return (
+
     <>
-        <div className="min-h-full flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+      <div className="min-h-full flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
         <div className="max-w-md w-full space-y-8">
           <div>
             <img
@@ -99,9 +99,9 @@ const Register = ({history}) => {
             <input type="hidden" name="remember" defaultValue="true" />
             <div className="rounded-md shadow-sm -space-y-px">
               <div>
-              {errorMessage && <p style={{color: 'red'}}>{errorMessage}</p>}
+                {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>}
                 <label htmlFor="username" className="sr-only">
-                Username
+                  Username
                 </label>
                 <input
                   id="username"
@@ -117,7 +117,7 @@ const Register = ({history}) => {
               </div>
               <div>
                 <label htmlFor="email-address" className="sr-only">
-                Email
+                  Email
                 </label>
                 <input
                   id="email-address"
@@ -200,7 +200,7 @@ const Register = ({history}) => {
           </form>
         </div>
       </div>
-        {/* <Container>
+      {/* <Container>
         <p></p>
         <Row className="justify-content-center">
             <Col className="col-md-6">
@@ -229,7 +229,7 @@ const Register = ({history}) => {
         </Row>
     </Container > */}
     </>
-    )
+  )
 
 }
 export default Register
