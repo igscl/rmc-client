@@ -36,7 +36,7 @@ const NewEvent = ({history}) => {
             name: formState.name,
             description: formState.name,
             url: formState.url,
-            date: formState.date
+            event_date: formState.date
         }
 
         addEvent(newEvent).then((newEvent) => {

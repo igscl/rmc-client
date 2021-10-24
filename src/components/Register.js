@@ -68,7 +68,7 @@ const Register = ({ history }) => {
           type: "setLeader",
           data: getLeaderFromLocalStorage()
         })
-        history.push("/")
+        history.push("/profile")
       })
       .catch(error => {
         setErrorMessage("Something went wrong, try changing your username");

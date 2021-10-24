@@ -62,6 +62,7 @@ const Nav = () => {
         { name: 'Eventos', href: '/events', current: false },
         { name: 'Agregar Acción', href: '/actions/new', current: false },
         { name: 'Crear Nodo', href: '/nodes/new', current: false },
+        { name: 'Agregar Evento', href: '/events/new', current: false },
       ]
 
     const navigationRegister = [
@@ -175,16 +176,22 @@ const Nav = () => {
                     leaveTo="transform opacity-0 scale-95"
                   >
                     <Menu.Items className="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
-                      <Menu.Item>
+                      
+                      {loggedInUser ? (<>
+                      
+                        <Menu.Item>
                         {({ active }) => (
                           <a
                             href="/profile"
                             className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
                           >
-                            Perfil
+                            {loggedInUser}
                           </a>
                         )}
                       </Menu.Item>
+                      
+                      </>):(<></>)}
+
                       {/* <Menu.Item>
                         {({ active }) => (
                           <a

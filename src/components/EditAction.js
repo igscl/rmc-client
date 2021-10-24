@@ -116,7 +116,7 @@ const EditAction = ({history, updateAction, action}) => {
               <div className="shadow sm:rounded-md sm:overflow-hidden">
                 <div className="px-4 py-5 bg-white space-y-6 sm:p-6">
                   <div className="grid grid-cols-3 gap-6">
-                    <div className="col-span-3 sm:col-span-2">
+                    {/* <div className="col-span-3 sm:col-span-2">
                       <label htmlFor="company-website" className="block text-sm font-medium text-gray-700">
                         Link Invitación
                       </label>
@@ -132,7 +132,7 @@ const EditAction = ({history, updateAction, action}) => {
                           placeholder="www.example.com"
                         />
                       </div>
-                    </div>
+                    </div> */}
                   </div>
 
                   <div className="col-span-6 sm:col-span-3">
